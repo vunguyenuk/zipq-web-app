@@ -9,10 +9,12 @@ const read = (name) => fs.readFileSync(path.join(root, name), 'utf8');
 const core = read('src/00-core.js');
 const data = read('src/10-data.js');
 const shell = read('src/20-shell.js');
+const settings = read('src/70-settings.js');
 const followUps = read('src/60-relationships.js');
 const agenda = read('src/55-agenda.js');
 const forms = read('src/65-forms.js');
 const css = read('src/system.css');
+const readability = read('src/readability.css');
 const template = read('.screens/followUps.html');
 const homeTemplate = read('.screens/home.html');
 const firstWeekTemplate = read('.screens/homeFirstWeek.html');
@@ -68,6 +70,17 @@ assert(/data-screen='templates'[^}]*\.template-assist\s*\{[\s\S]*?padding:\s*var
 assert(/\.template-grid\s*\{[^}]*gap:\s*var\(--space-lg\)\s*!important;/.test(css), 'Template grid gap is not tokenized');
 assert(/\.template-card\s*\{[\s\S]*?display:\s*flex\s*!important;[\s\S]*?gap:\s*var\(--space-md\)\s*!important;[\s\S]*?padding:\s*var\(--space-lg\)\s*!important;/.test(css), 'Template card stack spacing regressed');
 assert(/\.template-card-preview > \*\s*\{[^}]*min-height:\s*32px\s*!important;/.test(css), 'Template preview rows are too compressed');
+
+// Routine headers use a single sentence-case supporting-text role. The build
+// language pass must preserve capitalization instead of flattening Automatic
+// to lowercase while Scheduled remains tracked uppercase.
+assert(settings.includes("group.classList.add('routine-group-header')"), 'Routine group headers lack semantic typography hooks');
+assert(built.includes('>Automatic<span') && built.includes('>Scheduled<span'), 'Routine group labels are not title-cased consistently');
+for (const label of ['Trigger · Last run', 'Schedule · Last run', 'Your call · Produces']) {
+  assert(built.includes(`>${label}</span>`), `${label} is not sentence case`);
+}
+assert(!built.includes('>TRIGGER · LAST RUN</span>') && !built.includes('>YOUR CALL · PRODUCES</span>'), 'Tracked all-caps routine columns returned');
+assert(/\.routine-group-columns,[\s\S]*?\.routine-group-count\s*\{[\s\S]*?font-size:\s*var\(--reading-support\)\s*!important;[\s\S]*?letter-spacing:\s*0\s*!important;/.test(readability), 'Routine header typography is not bound to the supporting-text token');
 
 // Event links are kept for native keyboard semantics, while the controller
 // opens their editor in place. Falling through to the href switches to List.
@@ -132,6 +145,7 @@ console.log('PASS Follow-ups Due / Upcoming / Done navigation and data');
 console.log('PASS unified Home hero without legacy desktop and phone copy');
 console.log('PASS Design system link in sidebar and compact navigation');
 console.log('PASS template banner and card spacing contract');
+console.log('PASS Sofia routines sentence-case typography contract');
 console.log('PASS Calendar padding and in-place week/month event editing');
 console.log('PASS delegated actions: Enter, Space, native controls and nested targets');
 console.log('PASS canonical demo state is persisted to localStorage');

@@ -67,6 +67,7 @@ For every component, verify the CSS properties `font-size`, `font-family`, `colo
 10. Templates: the reuse banner keeps equal `--space-md` padding on all four sides. Summary cards use `--space-lg` outer padding, `--space-md` between major content groups, `--space-sm` inside Work items, and at least 32px-tall preview rows. Do not compress Forms chips into the Work items heading or reintroduce edit-history noise.
 11. Sofia suggestions: the inline suggestion spans the same content width as its neighboring Agenda cards. Suggestions are not committed actions.
 12. Typography: do not reintroduce 10–13px body/metadata text or `#8f8f8f` on light backgrounds. All button, select, input and textarea text, including Sort and New transaction, consumes `--type-action` (14px by default, 16px in Comfortable mode); icon-only controls retain their own icon geometry. Preserve accessible target sizes independently of label size. Keep reading copy distinct from controls; long paragraphs remain 16px by default. Keep long copy at a comfortable line length and allow text wrapping at zoom/comfortable size.
+13. Sofia routines: Automatic and Scheduled group labels, their descriptions, column labels and counts share the supporting-text scale with zero letter spacing. Use sentence case: “Automatic”, “Scheduled”, “Trigger · Last run”, “Schedule · Last run” and “Your call · Produces”.
 
 ## Implementation and review checklist
 

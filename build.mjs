@@ -231,7 +231,11 @@ function applyProductLanguage(s) {
     .replace(/all fields auto-checked · awaiting signatures/gi, 'All fields complete · Out for signature')
     .replace(/\bawaiting signatures\b/gi, 'Out for signature')
     .replace(/\bno envelopes out\b/gi, 'no signature requests')
-    .replace(/\breal-time\b/gi, 'automatic')
+    .replace(/\breal-time\b/gi, (value) => value === value.toLowerCase() ? 'automatic' : 'Automatic')
+    .replace(/\bSCHEDULED\b/g, 'Scheduled')
+    .replace(/\bTRIGGER · LAST RUN\b/g, 'Trigger · Last run')
+    .replace(/\bSCHEDULE · LAST RUN\b/g, 'Schedule · Last run')
+    .replace(/\bYOUR CALL · PRODUCES\b/g, 'Your call · Produces')
     .replace(/\bConnections\b/g, 'Settings');
 }
 

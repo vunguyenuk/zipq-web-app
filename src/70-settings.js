@@ -150,6 +150,19 @@ const Settings = {
   routines(app) {
     const main = $('main', app);
     this.nav(main, 'Sofia routines');
+    $$('div', main).filter((group) => {
+      if (group.classList.contains('rrow') || group.children.length !== 3) return false;
+      return /^(Automatic|Scheduled)\b/.test(text(group));
+    }).forEach((group) => {
+      group.classList.add('routine-group-header');
+      const [lead, output, count] = group.children;
+      lead.classList.add('routine-group-lead');
+      lead.children[0]?.classList.add('routine-group-icon');
+      lead.children[1]?.classList.add('routine-group-description');
+      lead.children[2]?.classList.add('routine-group-columns');
+      output.classList.add('routine-group-columns');
+      count.classList.add('routine-group-count');
+    });
     $$('[role=switch]', main).forEach((sw) => {
       const name = (sw.getAttribute('aria-label') || '').replace(/ routine$/, '');
       UI.setSwitch(sw, S.routines[name] !== false);

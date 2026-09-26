@@ -147,6 +147,34 @@ html body .estio-screen .client-filter-control {
   font-weight: 400 !important;
 }
 
+/* Routine group headers use one sentence-case label system. Imported text
+   previously mixed lowercase, all-caps and tracked microcopy in the same row. */
+html body .estio-screen[data-screen='routines'] .routine-group-lead {
+  color: var(--ink) !important;
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+html body .estio-screen[data-screen='routines'] .routine-group-description {
+  color: var(--ink-2) !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+html body .estio-screen[data-screen='routines'] .routine-group-columns,
+html body .estio-screen[data-screen='routines'] .routine-group-count {
+  color: var(--ink-2) !important;
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
 html[data-text-scale='comfortable'] body .estio-screen :is(.data-grid-row > *, .agenda-row-context, .agenda-row-type, .playbook-item > *) {
   font-size: var(--reading-support) !important;
   line-height: 1.5 !important;

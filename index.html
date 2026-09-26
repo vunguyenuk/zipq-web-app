@@ -6115,6 +6115,34 @@ html body .estio-screen .client-filter-control {
   font-weight: 400 !important;
 }
 
+/* Routine group headers use one sentence-case label system. Imported text
+   previously mixed lowercase, all-caps and tracked microcopy in the same row. */
+html body .estio-screen[data-screen='routines'] .routine-group-lead {
+  color: var(--ink) !important;
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+html body .estio-screen[data-screen='routines'] .routine-group-description {
+  color: var(--ink-2) !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+html body .estio-screen[data-screen='routines'] .routine-group-columns,
+html body .estio-screen[data-screen='routines'] .routine-group-count {
+  color: var(--ink-2) !important;
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
 html[data-text-scale='comfortable'] body .estio-screen :is(.data-grid-row > *, .agenda-row-context, .agenda-row-type, .playbook-item > *) {
   font-size: var(--reading-support) !important;
   line-height: 1.5 !important;
@@ -8394,7 +8422,7 @@ html[data-text-scale='comfortable'] body .estio-screen > .app-navigation-sidebar
 <img data-asset="2141beaaf5" src="" alt="" style="width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; background: #F3F3F3; box-shadow: 0 0 0 1px rgba(13,13,13,0.25);">
 <h2 style="margin: 0; font-size: 16px; font-weight: 600;">Sofia</h2>
 </div>
-<a href="#/settings/routines" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F3F3F3; text-decoration: none; color: #0D0D0D;"><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13.5px;">Sofia routines</span><span style="font-size: 12px; color: #5D5D5D;">automatic and scheduled · results land in the Communication log, Home and Agenda</span></div><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #5D5D5D;">9 on<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></span></a>
+<a href="#/settings/routines" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F3F3F3; text-decoration: none; color: #0D0D0D;"><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13.5px;">Sofia routines</span><span style="font-size: 12px; color: #5D5D5D;">Automatic and scheduled · results land in the Communication log, Home and Agenda</span></div><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #5D5D5D;">9 on<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></span></a>
 <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F3F3F3;">
 <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13.5px;">Voice</span><span style="font-size: 12px; color: #5D5D5D;">Let Sofia speak responses aloud</span></div>
 <button role="switch" aria-checked="true" aria-label="Voice" style="width: 40px; height: 24px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 20px; height: 20px; border-radius: 50%; background: #FFFFFF;"></span></button>
@@ -8705,14 +8733,14 @@ Continue with Microsoft</a>
 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <h2 style="margin: 0; font-size: 16px; font-weight: 600;">Sofia routines</h2>
-<span style="font-size: 13px; color: #5D5D5D; line-height: 1.45; max-width: 640px;">Routines are Sofia's background jobs. automatic ones react to new messages and signatures; scheduled ones scan on a timer. Results land in the Communication log, Home and Agenda.</span>
+<span style="font-size: 13px; color: #5D5D5D; line-height: 1.45; max-width: 640px;">Routines are Sofia's background jobs. Automatic ones react to new messages and signatures; scheduled ones scan on a timer. Results land in the Communication log, Home and Agenda.</span>
 </div>
 <a href="#/chat" style="display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; background: #FFFFFF; border-radius: 12px; font-size: 13.5px; font-weight: 500; color: #0D0D0D; text-decoration: none; white-space: nowrap; flex-shrink: 0; box-shadow: 0 0 0 1px #E3E3E3;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Suggest a routine</a>
 </div>
 <div style="display: flex; flex-direction: column;">
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) 250px 212px 38px; column-gap: 18px; align-items: center; margin-top: 8px; padding: 8px 12px; margin-left: -12px; margin-right: -12px; border-radius: 10px; background: #FCFCFC;">
-<span style="display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #414141; white-space: nowrap; grid-column: span 2;"><span style="width: 22px; height: 22px; border-radius: 6px; background: #F3F3F3; color: #0D0D0D; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg></span>automatic<span style="font-weight: 500; letter-spacing: 0; font-size: 12.5px; color: #5D5D5D;">· runs when something happens</span><span style="margin-left: auto; padding-right: 18px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">TRIGGER · LAST RUN</span></span>
-<span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">YOUR CALL · PRODUCES</span>
+<span style="display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #414141; white-space: nowrap; grid-column: span 2;"><span style="width: 22px; height: 22px; border-radius: 6px; background: #F3F3F3; color: #0D0D0D; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg></span>Automatic<span style="font-weight: 500; letter-spacing: 0; font-size: 12.5px; color: #5D5D5D;">· runs when something happens</span><span style="margin-left: auto; padding-right: 18px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">Trigger · Last run</span></span>
+<span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">Your call · Produces</span>
 <span style="font-size: 12px; font-weight: 500; color: #5D5D5D; text-align: right; white-space: nowrap;">4 on</span>
 </div>
 <div class="rrow" style="display: grid; grid-template-columns: minmax(0, 1fr) 250px 212px 38px; column-gap: 18px; align-items: center; padding: 10px 0; border-bottom: 1px solid #F3F3F3;">
@@ -8776,8 +8804,8 @@ Continue with Microsoft</a>
 <button role="switch" aria-checked="true" aria-label="Checklist updates routine" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button>
 </div>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) 250px 212px 38px; column-gap: 18px; align-items: center; margin-top: 14px; padding: 8px 12px; margin-left: -12px; margin-right: -12px; border-radius: 10px; background: #FCFCFC;">
-<span style="display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #414141; white-space: nowrap; grid-column: span 2;"><span style="width: 22px; height: 22px; border-radius: 6px; background: #F3F3F3; color: #0D0D0D; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg></span>SCHEDULED<span style="font-weight: 500; letter-spacing: 0; font-size: 12.5px; color: #5D5D5D;">· runs on a timer</span><span style="margin-left: auto; padding-right: 18px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">SCHEDULE · LAST RUN</span></span>
-<span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">YOUR CALL · PRODUCES</span>
+<span style="display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #414141; white-space: nowrap; grid-column: span 2;"><span style="width: 22px; height: 22px; border-radius: 6px; background: #F3F3F3; color: #0D0D0D; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg></span>Scheduled<span style="font-weight: 500; letter-spacing: 0; font-size: 12.5px; color: #5D5D5D;">· runs on a timer</span><span style="margin-left: auto; padding-right: 18px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">Schedule · Last run</span></span>
+<span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: #5D5D5D;">Your call · Produces</span>
 <span style="font-size: 12px; font-weight: 500; color: #5D5D5D; text-align: right; white-space: nowrap;">5 on</span>
 </div>
 <div class="rrow" style="display: grid; grid-template-columns: minmax(0, 1fr) 250px 212px 38px; column-gap: 18px; align-items: center; padding: 10px 0; border-bottom: 1px solid #F3F3F3;">
@@ -10337,7 +10365,7 @@ Continue with Microsoft</a>
 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <h2 style="margin: 0; font-size: 16px; font-weight: 600;">Notifications</h2>
-<span style="font-size: 13px; color: #5D5D5D; line-height: 1.45; max-width: 620px;">Choose how Sofia reaches you for each kind of update. automatic ones fire the moment something happens; scheduled ones follow your routines.</span>
+<span style="font-size: 13px; color: #5D5D5D; line-height: 1.45; max-width: 620px;">Choose how Sofia reaches you for each kind of update. Automatic ones fire the moment something happens; scheduled ones follow your routines.</span>
 </div>
 <a href="#/settings/routines" style="display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; background: #FFFFFF; border-radius: 12px; font-size: 13.5px; font-weight: 500; color: #0D0D0D; text-decoration: none; white-space: nowrap; flex-shrink: 0; box-shadow: 0 0 0 1px #E3E3E3;">Sofia routines<span style="font-size: 12px; color: #5D5D5D;">9 on</span></a>
 </div>
@@ -10346,14 +10374,14 @@ Continue with Microsoft</a>
 </div>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) 88px 88px 88px; column-gap: 16px; align-items: center; padding: 13px 0; border-bottom: 1px solid #F3F3F3;">
 <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
-<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Signing &amp; delivery updates</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>automatic</span></span>
+<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Signing &amp; delivery updates</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>Automatic</span></span>
 <span style="font-size: 12.5px; color: #5D5D5D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">When an envelope is viewed, signed, declined or delivered</span>
 </div>
 <div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-label="Signing &amp; delivery updates by Push" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-label="Signing &amp; delivery updates by Email" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="false" aria-label="Signing &amp; delivery updates by SMS" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #DFDFDF; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div>
 </div>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) 88px 88px 88px; column-gap: 16px; align-items: center; padding: 13px 0; border-bottom: 1px solid #F3F3F3;">
 <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
-<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Contract deadlines</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>Scheduled</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>automatic</span><span style="font-size: 12px; color: #5D5D5D; white-space: nowrap;">6:30 AM + when a date changes</span></span>
+<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Contract deadlines</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>Scheduled</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>Automatic</span><span style="font-size: 12px; color: #5D5D5D; white-space: nowrap;">6:30 AM + when a date changes</span></span>
 <span style="font-size: 12.5px; color: #5D5D5D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Contingency removals, offer expiry, close of escrow · Push is always on</span>
 </div>
 <div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-disabled="true" aria-label="Contract deadlines by Push" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #7FA8D8; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 5px; left: 5px; color: #FFFFFF; display: flex;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-label="Contract deadlines by Email" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-label="Contract deadlines by SMS" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div>
@@ -10367,14 +10395,14 @@ Continue with Microsoft</a>
 </div>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) 88px 88px 88px; column-gap: 16px; align-items: center; padding: 13px 0; border-bottom: 1px solid #F3F3F3;">
 <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
-<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Sofia suggestions</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>automatic</span></span>
+<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Sofia suggestions</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>Automatic</span></span>
 <span style="font-size: 12.5px; color: #5D5D5D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">New Suggested Work Items from your routines</span>
 </div>
 <div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-label="Sofia suggestions by Push" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="false" aria-label="Sofia suggestions by Email" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #DFDFDF; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="false" aria-label="Sofia suggestions by SMS" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #DFDFDF; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div>
 </div>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) 88px 88px 88px; column-gap: 16px; align-items: center; padding: 13px 0; border-bottom: 1px solid #F3F3F3;">
 <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
-<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Communication log</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>automatic</span></span>
+<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-size: 14px; font-weight: 600; color: #0D0D0D; white-space: nowrap;">Communication log</span><span style="display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; border-radius: 6px; background: #F3F3F3; color: #414141; font-size: 11.5px; font-weight: 500; white-space: nowrap;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"></path></svg>Automatic</span></span>
 <span style="font-size: 12.5px; color: #5D5D5D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">A new email, SMS or call was captured on a transaction</span>
 </div>
 <div style="display: flex; justify-content: center;"><button role="switch" aria-checked="true" aria-label="Communication log by Push" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #0D0D0D; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 18px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="false" aria-label="Communication log by Email" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #DFDFDF; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div><div style="display: flex; justify-content: center;"><button role="switch" aria-checked="false" aria-label="Communication log by SMS" style="width: 38px; height: 22px; border-radius: 999px; border: 0; background: #DFDFDF; position: relative; padding: 0; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF;"></span></button></div>
@@ -16121,6 +16149,19 @@ const Settings = {
   routines(app) {
     const main = $('main', app);
     this.nav(main, 'Sofia routines');
+    $$('div', main).filter((group) => {
+      if (group.classList.contains('rrow') || group.children.length !== 3) return false;
+      return /^(Automatic|Scheduled)\b/.test(text(group));
+    }).forEach((group) => {
+      group.classList.add('routine-group-header');
+      const [lead, output, count] = group.children;
+      lead.classList.add('routine-group-lead');
+      lead.children[0]?.classList.add('routine-group-icon');
+      lead.children[1]?.classList.add('routine-group-description');
+      lead.children[2]?.classList.add('routine-group-columns');
+      output.classList.add('routine-group-columns');
+      count.classList.add('routine-group-count');
+    });
     $$('[role=switch]', main).forEach((sw) => {
       const name = (sw.getAttribute('aria-label') || '').replace(/ routine$/, '');
       UI.setSwitch(sw, S.routines[name] !== false);
