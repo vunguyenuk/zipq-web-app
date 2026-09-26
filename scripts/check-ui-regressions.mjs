@@ -51,6 +51,13 @@ assert(shell.includes('class="nav sidebar-design-system-link" href="design-syste
 assert(shell.includes("{ label: 'Design system', onClick: () => location.assign('design-system/index.html') }"), 'Compact navigation is missing Design system');
 assert(fs.existsSync(path.join(root, 'design-system/index.html')), 'Design system destination does not exist');
 
+// The persistent rail owns the visible profile entry. It must open the same
+// account menu as the full sidebar so users can reach auth again via Sign out.
+assert(shell.includes('class="app-rail-avatar" type="button" aria-label="Open profile menu" aria-haspopup="menu"'), 'Rail avatar is not an accessible profile-menu button');
+assert(shell.includes("onClick($('.app-rail-avatar', rail), (e, button) => this.profileMenu(button))"), 'Rail avatar does not open the profile menu');
+assert(shell.includes("{ label: 'Sign out', danger: true, onClick: () => Auth.signOut() }"), 'Profile menu is missing Sign out');
+assert(/\.settings-layout > :last-child\s*\{[\s\S]*?overflow-y:\s*auto !important;/.test(css), 'Settings content column is not vertically scrollable');
+
 // Event links are kept for native keyboard semantics, while the controller
 // opens their editor in place. Falling through to the href switches to List.
 assert(agenda.includes('onClick(el, () => this.openEvent({ id: e.id }))'), 'Week events must open their editor in Calendar');

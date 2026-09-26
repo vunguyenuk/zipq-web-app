@@ -4812,8 +4812,36 @@ html body .estio-screen[data-screen='forms'] .forms-assist-bar.layout-rail {
 html body .estio-screen .settings-layout {
   width: 100% !important;
   min-width: 0;
+  min-height: 0;
   align-self: stretch;
+  overflow: hidden !important;
   box-sizing: border-box;
+}
+
+/* Settings keeps its page header and section navigation fixed while the
+   settings cards scroll. The imported template previously clipped this
+   column with overflow:hidden, leaving lower preferences unreachable. */
+html body .estio-screen[data-screen^='settings'] main.settings-workspace {
+  min-height: 0;
+  overflow: hidden !important;
+}
+
+html body .estio-screen[data-screen^='settings'] .settings-layout > :last-child {
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+}
+
+@media (max-width: 760px) {
+  html body .estio-screen[data-screen^='settings'] main.settings-workspace,
+  html body .estio-screen[data-screen^='settings'] .settings-layout,
+  html body .estio-screen[data-screen^='settings'] .settings-layout > :last-child {
+    min-height: 0;
+    overflow: visible !important;
+  }
 }
 
 /* The first-week action group and its label are content within the rail,

@@ -130,7 +130,7 @@ const Shell = {
     const itemHTML = ([id, label, href, icon]) => `<a class="app-rail-item" href="${href}" aria-label="${label}" data-area="${id}" data-tooltip="${label}"${area === id ? ' aria-current="page"' : ''}>${icon}</a>`;
     const rail = html(`<nav class="app-rail" aria-label="Primary navigation">
       <div class="app-rail-main">${items.map(itemHTML).join('')}<button class="app-rail-item app-rail-more" type="button" aria-label="More" data-tooltip="More">${icons.more}</button></div>
-      <div class="app-rail-bottom"><button class="app-rail-item app-rail-help" type="button" aria-label="Help" data-tooltip="Help">${icons.help}</button><a class="app-rail-avatar" href="#/settings" aria-label="Profile and settings" data-tooltip="Profile and settings">${esc(initials(S.user.first + ' ' + S.user.last))}</a></div>
+      <div class="app-rail-bottom"><button class="app-rail-item app-rail-help" type="button" aria-label="Help" data-tooltip="Help">${icons.help}</button><button class="app-rail-avatar" type="button" aria-label="Open profile menu" aria-haspopup="menu" data-tooltip="Profile menu">${esc(initials(S.user.first + ' ' + S.user.last))}</button></div>
     </nav>`);
     aside.insertAdjacentElement('beforebegin', rail);
     rail.classList.toggle('panel-collapsed', !!S.session.sidebarCollapsed);
@@ -157,6 +157,7 @@ const Shell = {
       { label: 'Design system', onClick: () => location.assign('design-system/index.html') },
     ], { align: 'after', width: 200 }));
     onClick($('.app-rail-help', rail), () => toast('Help center is coming soon'));
+    onClick($('.app-rail-avatar', rail), (e, button) => this.profileMenu(button));
 
     const header = aside.firstElementChild;
     const collapse = $('[aria-label="Collapse sidebar"]', header);
@@ -234,7 +235,11 @@ const Shell = {
     setOwn(spans[0], initials(u.first + ' ' + u.last));
     const nm = spans.find((s) => ownText(s) === 'Chinh Le'); if (nm) nm.textContent = `${u.first} ${u.last}`;
     const org = spans.find((s) => /· Owner/.test(ownText(s))); if (org) org.textContent = `${u.org} · ${u.role}`;
-    onClick(card, () => openMenu(card, [
+    onClick(card, () => this.profileMenu(card));
+  },
+  profileMenu(anchor) {
+    const u = S.user;
+    return openMenu(anchor, [
       { header: `${u.first} ${u.last} · ${u.email}` },
       { label: 'Settings', onClick: () => Router.go('#/settings') },
       { label: 'Security', onClick: () => Router.go('#/settings/security') },
@@ -242,7 +247,7 @@ const Shell = {
       '-',
       { label: 'Reset demo data', onClick: () => confirmDlg({ title: 'Reset demo data?', body: 'All changes you made in this browser will be replaced with the original sample workspace.', ok: 'Reset', danger: true, onOk: () => { const s = S.session.signedIn; resetDB(); S.session.signedIn = s; saveDB(); Router.go('#/home'); toast('Demo data reset'); } }) },
       { label: 'Sign out', danger: true, onClick: () => Auth.signOut() },
-    ], { width: 250 }));
+    ], { align: anchor.classList.contains('app-rail-avatar') ? 'after' : 'left', width: 250 });
   },
   sofiaNav(aside, key) {
     const newChat = aside.children[2];
