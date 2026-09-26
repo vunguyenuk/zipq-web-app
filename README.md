@@ -8,7 +8,7 @@ The live [design-system catalog](design-system/index.html) documents foundations
 
 ## What's in it
 - All 33 screens from the design, running as one app with navigation between them (hash routes like `#/home`, `#/tx/t1/checklist`, `#/agenda/calendar`).
-- Mock data is saved in the browser's `localStorage`, so your changes are still there after a reload. To start over, click the avatar in the bottom-left corner and choose **Reset demo data**.
+- A complete demo workspace is written to the browser's `localStorage` on first load, including the signed-in Home state, expanded navigation and Standard text size. Changes persist after reload. Incompatible schema updates reset the demo once so local and deployed builds start from the same canonical state. To start over manually, click the avatar in the bottom-left corner and choose **Reset demo data**.
 - Sofia runs on scripted responses, not a real AI. She can create transactions, fill form fields, move the offer expiration, add tasks and events, draft texts and emails, and answer questions about what's due, follow-ups and compliance. In Agent mode, every change waits on an approval card before it's saved.
 - The demo sign-in accepts any email and any password.
 

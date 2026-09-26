@@ -1,5 +1,5 @@
 /* Seed data — dates are relative to "today" so the workspace always looks current */
-const SEED_VERSION = 3;
+const SEED_VERSION = 4;
 
 const FORM_LIBRARY = [
   ['RPA', 'Residential Purchase Agreement', 10, 'Purchase'], ['AD', 'Disclosure Regarding Real Estate Agency', 2, 'Disclosures'],
@@ -33,7 +33,15 @@ function seedDB() {
   const now = new Date().toISOString();
   const db = {
     version: SEED_VERSION,
-    session: { signedIn: false, onboarded: true, firstWeek: false, mode: 'agent', scope: 'org' },
+    session: {
+      signedIn: true,
+      onboarded: true,
+      firstWeek: false,
+      mode: 'agent',
+      scope: 'org',
+      sidebarCollapsed: false,
+      textScale: 'standard',
+    },
     user: { first: 'Chinh', last: 'Le', email: 'chinh.le@c0x12c.com', phone: '(714) 555-0142', brokerage: 'Org 1', dre: '01998877', role: 'Owner', org: 'Org 1', state: 'California', agentRole: 'Agent' },
     ui: {},
     lastTx: 't1',

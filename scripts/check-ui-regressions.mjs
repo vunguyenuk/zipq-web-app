@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (name) => fs.readFileSync(path.join(root, name), 'utf8');
 const core = read('src/00-core.js');
+const data = read('src/10-data.js');
 const shell = read('src/20-shell.js');
 const followUps = read('src/60-relationships.js');
 const agenda = read('src/55-agenda.js');
@@ -16,6 +17,13 @@ const homeTemplate = read('.screens/home.html');
 const firstWeekTemplate = read('.screens/homeFirstWeek.html');
 const phoneHomeTemplate = read('.screens/phoneHome.html');
 const built = read('index.html');
+
+// Every origin receives the same complete demo workspace on first load. A
+// schema bump intentionally replaces incompatible persisted demo state once,
+// then boot writes the canonical seed back to localStorage.
+assert(data.includes('const SEED_VERSION = 4;'), 'Demo storage schema version changed unexpectedly');
+assert(/session:\s*\{[\s\S]*?signedIn:\s*true,[\s\S]*?sidebarCollapsed:\s*false,[\s\S]*?textScale:\s*'standard'/.test(data), 'Canonical demo session state is incomplete');
+assert(/S = loadDB\(\);\s*saveDB\(\);/.test(core), 'Boot must persist the canonical seed to localStorage');
 
 // Both desktop Home states share the current hero/composer. The old inline
 // priority-count headline and demo deadline copy must not ship again.
@@ -107,3 +115,4 @@ console.log('PASS unified Home hero without legacy desktop and phone copy');
 console.log('PASS Design system link in sidebar and compact navigation');
 console.log('PASS Calendar padding and in-place week/month event editing');
 console.log('PASS delegated actions: Enter, Space, native controls and nested targets');
+console.log('PASS canonical demo state is persisted to localStorage');
