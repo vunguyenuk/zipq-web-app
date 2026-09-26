@@ -1,0 +1,200 @@
+/* Readability layer: navigation contrast, text hierarchy and a user-controlled
+   comfortable size. Loaded after the legacy screenshot styles on purpose. */
+:root {
+  --sidebar-bg: #f3f3f3;
+  --reading-body: 1rem;
+  --reading-support: .875rem;
+  --reading-leading: 1.5;
+}
+
+html[data-text-scale='comfortable'] {
+  --type-action: 1rem;
+  --type-message: 1.125rem;
+  --reading-body: 1.125rem;
+  --reading-support: 1rem;
+  --reading-leading: 1.55;
+  --type-section-title: 1.125rem;
+}
+
+html body .estio-screen > .app-rail,
+html body .estio-screen > .app-navigation-sidebar {
+  background: var(--sidebar-bg) !important;
+}
+html body .estio-screen > .app-navigation-sidebar {
+  border-right: 1px solid var(--border) !important;
+}
+html body .estio-screen > .app-navigation-sidebar a.nav {
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+}
+html body .estio-screen > .app-navigation-sidebar .sidebar-primary-action {
+  font-size: var(--type-action) !important;
+}
+html body .estio-screen .readable-small-text,
+html body #overlay-root .readable-small-text {
+  font-size: var(--reading-support) !important;
+  line-height: 1.4 !important;
+}
+html body .estio-screen .readable-muted-text,
+html body #overlay-root .readable-muted-text {
+  color: var(--ink-2) !important;
+}
+html body .estio-screen .pill.readable-small-text {
+  min-height: 24px;
+  height: auto !important;
+}
+
+html body .estio-screen .channel-call-note,
+html body .estio-screen .agenda-row-title,
+html body .estio-screen .agenda-row-main,
+html body .estio-screen .follow-up-title,
+html body .estio-screen .follow-up-radar-description,
+html body .estio-screen .client-detail-next-title,
+html body .estio-screen .client-detail-modal textarea {
+  font-size: var(--reading-body) !important;
+  line-height: var(--reading-leading) !important;
+}
+/* A conversation is denser than long-form reading copy, but stays zoomable. */
+html body .estio-screen :is(.msg-s .bd, .msg-u, .channel-mail-body, .channel-sms-bubble) {
+  font-size: var(--type-message) !important;
+  line-height: 1.55 !important;
+}
+html body .estio-screen .msg-s .bd p,
+html body .estio-screen .msg-u > div:first-child {
+  font-size: inherit !important;
+}
+html body .estio-screen :is(.type-caption, .type-label, .agenda-row-context, .agenda-row-type, .channel-kicker, .channel-view-heading, .channel-signer-name span, .channel-signature, .channel-call dt),
+html body #overlay-root :is(.modal-s, .fhint, .flabel, .menu-h, .menu-sub, .sr-g, .sr-i small) {
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+}
+html body .estio-screen :is(
+  .app-rail-avatar, .sidebar-search kbd, .filter-chip span,
+  .agenda-top p, .agenda-time-group > header span, .agenda-flat-row time,
+  .fx-count, .fx-row .fx-meta,
+  .channel-muted, .channel-avatar, .channel-mail-address span, .channel-mail-meta,
+  .channel-sms-who span, .channel-call-title > div span, .channel-call-note span,
+  .channel-envelope-head > div > span:last-child, .channel-status,
+  .channel-signers-heading, .channel-step, .channel-envelope-foot,
+  .playbook-group > span, .playbook-item > :nth-child(n+2)
+) {
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+}
+/* Controls share Ask Sofia's label size; reading copy keeps its own role. */
+html body .estio-screen :is(input, textarea, select, .ui-input),
+html body #overlay-root :is(input, textarea, select) {
+  font-size: var(--type-action) !important;
+}
+html body .estio-screen :is(.ui-button, .ui-menu-item),
+html body #overlay-root :is(.btn, .menu-i) {
+  font-size: var(--type-action) !important;
+}
+html body .estio-screen .ui-button--primary {
+  font-size: var(--type-action) !important;
+}
+html body .estio-screen .ui-action-label {
+  font-size: var(--type-action) !important;
+  line-height: 1.4286 !important;
+}
+/* Imported screens and dynamic dialogs contain strong inline recipes. Keep
+   the control type role authoritative without changing height or padding. */
+#app .estio-screen :is(button:not(.ui-icon-button):not(.icon-btn), a.ui-action-label, input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']), select, textarea),
+#overlay-root :is(button:not(.ui-icon-button):not(.icon-btn), input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']), select, textarea) {
+  font-size: var(--type-action) !important;
+  font-family: var(--font-ui) !important;
+}
+#app .estio-screen :is(button:not(:has(> div)), a.ui-action-label) > :is(span, b, strong):not([aria-hidden='true']):not(:has(svg, img)) {
+  font-size: var(--type-action) !important;
+}
+/* Material 3's compact reading role is 14/20. Pair it with a common baseline
+   for date + description records; imported date padding must not offset it. */
+html body .estio-screen .client-followup-timeline > :not(:first-child) > :is(:first-child, :nth-child(2)),
+html body .estio-screen .transaction-log-row > :is(.transaction-log-when, :nth-child(2)) {
+  font-size: var(--reading-support) !important;
+  line-height: 1.4286 !important;
+}
+html body .estio-screen .transaction-log-row {
+  align-items: baseline;
+}
+html body .estio-screen .transaction-log-when {
+  font-variant-numeric: tabular-nums;
+}
+html body #toast-root .toast {
+  font-family: var(--font-ui) !important;
+  font-size: var(--reading-support) !important;
+  line-height: 1.45 !important;
+}
+html body #toast-root .toast-act { font-family: var(--font-ui) !important; font-size: var(--reading-support) !important; }
+html body .estio-screen :is(input, textarea)::placeholder,
+html body #overlay-root :is(input, textarea)::placeholder {
+  color: var(--ink-3) !important;
+  opacity: 1;
+}
+html body .estio-screen :is(.data-grid-row, .agenda-flat-row) {
+  line-height: var(--reading-leading);
+}
+html body .estio-screen :is(.data-grid-row, .agenda-flat-row) > :not(:first-child) {
+  min-width: 0;
+}
+html body .estio-screen .client-detail-actions > :is(.client-detail-action, .client-detail-start-transaction) {
+  font-size: var(--type-action) !important;
+  line-height: 1.4286 !important;
+}
+html body .estio-screen .client-filter-control {
+  font-size: var(--type-action) !important;
+  line-height: 1.4286 !important;
+  font-weight: 400 !important;
+}
+
+html[data-text-scale='comfortable'] body .estio-screen :is(.data-grid-row > *, .agenda-row-context, .agenda-row-type, .playbook-item > *) {
+  font-size: var(--reading-support) !important;
+  line-height: 1.5 !important;
+}
+html[data-text-scale='comfortable'] body .estio-screen > .app-navigation-sidebar {
+  flex-basis: 296px !important;
+  width: 296px !important;
+}
+html[data-text-scale='comfortable'] body .estio-screen > .app-navigation-sidebar.collapsed {
+  display: none !important;
+}
+
+.readability-settings {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface-raised);
+}
+.readability-settings h2 { margin: 0; font-size: 1.125rem; line-height: 1.35; }
+.readability-settings p { margin: 4px 0 0; color: var(--ink-2); font-size: .875rem; }
+.readability-options { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.readability-options button {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 2px; min-height: 48px; padding: 8px 12px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-control);
+  background: var(--surface-raised); color: var(--ink);
+  font: 600 .875rem/1.25 var(--font-ui); cursor: pointer;
+}
+.readability-options button[aria-checked='true'] {
+  border-color: var(--ink); background: var(--surface-subtle);
+}
+.readability-options button span { color: var(--ink-2); font-size: .875rem; font-weight: 400; }
+@media (max-width: 760px) {
+  .readability-settings { grid-template-columns: minmax(0, 1fr); }
+  html body .estio-screen main section[aria-label='Transactions'],
+  html body .estio-screen main [aria-label='Clients'][role='table'],
+  html body .estio-screen main [aria-label='Agenda list'] {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+}
+@media (pointer: coarse) {
+  html body .estio-screen :is(.ui-button, .ui-icon-button, .filter-chip, .agenda-check),
+  html body .estio-screen > .app-navigation-sidebar a.nav {
+    min-height: 44px !important;
+  }
+}
