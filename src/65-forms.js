@@ -79,7 +79,10 @@ const Forms = {
       const message = $$('span', assist).find((node) => /Sofia can build/.test(ownText(node)));
       if (message) message.textContent = 'Reuse the forms and work items from a closed transaction.';
     }
-    const grid = main.children[2].children[0];
+    const gridRegion = main.children[2];
+    const grid = gridRegion.children[0];
+    gridRegion.classList.add('template-grid-region');
+    grid.classList.add('template-grid');
     const cards = [...grid.children];
     const sideOf = { 'buyer-standard': 'Buyer', 'seller-listing': 'Seller', 'counter-offer': 'Situational', 'contingency-removal': 'Situational' };
     const designedIds = Object.keys(sideOf);

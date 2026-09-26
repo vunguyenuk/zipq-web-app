@@ -51,7 +51,7 @@ For every component, verify the CSS properties `font-size`, `font-family`, `colo
 | Transaction detail and DocuSign | `.tx-overview-summary-row`, `.channel-envelope`, `.channel-signer`; `src/50-txdetail.js` |
 | Today timeline | `.today-card`, `.today-list`, `.today-event`, `.today-now`; `src/30-components.js` |
 | Sofia chat, composer, approval, suggestion | `.chat-input-shell`, `.sofia-composer`, `.chat-confirm-reply`, `.sofia-inline-suggestion`; `src/35-sofia.js` |
-| Forms and playbook | `.form-checklists`, `.form-disclosure-button`, `.template-card`, `.playbook-work-items`, `.playbook-group`, `.playbook-item`; `src/50-txdetail.js`, `src/65-forms.js` |
+| Forms and playbook | `.form-checklists`, `.form-disclosure-button`, `.template-assist`, `.template-grid`, `.template-card`, `.playbook-work-items`, `.playbook-group`, `.playbook-item`; `src/50-txdetail.js`, `src/65-forms.js` |
 
 ## Regression traps from previous feedback
 
@@ -63,9 +63,10 @@ For every component, verify the CSS properties `font-size`, `font-family`, `colo
 6. Communication log: Chat is the aggregate tab, not All. Email, SMS, Calls and DocuSign each use their own information architecture. Calls show start, end, duration. DocuSign shows actual envelope recipient status; never draw or imply a handwritten signature without data.
 7. Forms and playbook: Template cards show decision-useful content only. Work item/Due/Owner/Reminder remain aligned until the container genuinely needs a compact second row. Every form and group arrow is a native, stateful disclosure button.
 8. Borders: outer surfaces and controls use `--border`; passive dividers use `--border-subtle`. Both are neutral ChatGPT-light alpha borders. Do not add blue-gray one-off outlines or nested borders.
-8. Tables: headers share the same light neutral surface, text role, and four-sided padding. Do not nest an input border inside a search-field border or crop the last row by mismatched bottom padding.
-9. Sofia suggestions: the inline suggestion spans the same content width as its neighboring Agenda cards. Suggestions are not committed actions.
-10. Typography: do not reintroduce 10–13px body/metadata text or `#8f8f8f` on light backgrounds. All button, select, input and textarea text, including Sort and New transaction, consumes `--type-action` (14px by default, 16px in Comfortable mode); icon-only controls retain their own icon geometry. Preserve accessible target sizes independently of label size. Keep reading copy distinct from controls; long paragraphs remain 16px by default. Keep long copy at a comfortable line length and allow text wrapping at zoom/comfortable size.
+9. Tables: headers share the same light neutral surface, text role, and four-sided padding. Do not nest an input border inside a search-field border or crop the last row by mismatched bottom padding.
+10. Templates: the reuse banner keeps equal `--space-md` padding on all four sides. Summary cards use `--space-lg` outer padding, `--space-md` between major content groups, `--space-sm` inside Work items, and at least 32px-tall preview rows. Do not compress Forms chips into the Work items heading or reintroduce edit-history noise.
+11. Sofia suggestions: the inline suggestion spans the same content width as its neighboring Agenda cards. Suggestions are not committed actions.
+12. Typography: do not reintroduce 10–13px body/metadata text or `#8f8f8f` on light backgrounds. All button, select, input and textarea text, including Sort and New transaction, consumes `--type-action` (14px by default, 16px in Comfortable mode); icon-only controls retain their own icon geometry. Preserve accessible target sizes independently of label size. Keep reading copy distinct from controls; long paragraphs remain 16px by default. Keep long copy at a comfortable line length and allow text wrapping at zoom/comfortable size.
 
 ## Implementation and review checklist
 

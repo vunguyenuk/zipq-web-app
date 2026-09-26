@@ -11,6 +11,7 @@ const data = read('src/10-data.js');
 const shell = read('src/20-shell.js');
 const followUps = read('src/60-relationships.js');
 const agenda = read('src/55-agenda.js');
+const forms = read('src/65-forms.js');
 const css = read('src/system.css');
 const template = read('.screens/followUps.html');
 const homeTemplate = read('.screens/home.html');
@@ -57,6 +58,16 @@ assert(shell.includes('class="app-rail-avatar" type="button" aria-label="Open pr
 assert(shell.includes("onClick($('.app-rail-avatar', rail), (e, button) => this.profileMenu(button))"), 'Rail avatar does not open the profile menu');
 assert(shell.includes("{ label: 'Sign out', danger: true, onClick: () => Auth.signOut() }"), 'Profile menu is missing Sign out');
 assert(/\.settings-layout > :last-child\s*\{[\s\S]*?overflow-y:\s*auto !important;/.test(css), 'Settings content column is not vertically scrollable');
+
+// Template summaries need explicit hooks and token spacing. Generic page-head
+// rules previously overrode only the reuse banner's top padding, while a
+// display:block card rule silently disabled its vertical gap.
+assert(forms.includes("gridRegion.classList.add('template-grid-region')"), 'Templates grid region lacks its layout hook');
+assert(forms.includes("grid.classList.add('template-grid')"), 'Templates grid lacks its layout hook');
+assert(/data-screen='templates'[^}]*\.template-assist\s*\{[\s\S]*?padding:\s*var\(--space-md\)\s*!important;/.test(css), 'Reuse banner must have equal token padding');
+assert(/\.template-grid\s*\{[^}]*gap:\s*var\(--space-lg\)\s*!important;/.test(css), 'Template grid gap is not tokenized');
+assert(/\.template-card\s*\{[\s\S]*?display:\s*flex\s*!important;[\s\S]*?gap:\s*var\(--space-md\)\s*!important;[\s\S]*?padding:\s*var\(--space-lg\)\s*!important;/.test(css), 'Template card stack spacing regressed');
+assert(/\.template-card-preview > \*\s*\{[^}]*min-height:\s*32px\s*!important;/.test(css), 'Template preview rows are too compressed');
 
 // Event links are kept for native keyboard semantics, while the controller
 // opens their editor in place. Falling through to the href switches to List.
@@ -120,6 +131,7 @@ assert.equal(nested.listeners.has('keydown'), false, 'Do not nest a focus stop i
 console.log('PASS Follow-ups Due / Upcoming / Done navigation and data');
 console.log('PASS unified Home hero without legacy desktop and phone copy');
 console.log('PASS Design system link in sidebar and compact navigation');
+console.log('PASS template banner and card spacing contract');
 console.log('PASS Calendar padding and in-place week/month event editing');
 console.log('PASS delegated actions: Enter, Space, native controls and nested targets');
 console.log('PASS canonical demo state is persisted to localStorage');

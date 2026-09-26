@@ -2348,32 +2348,53 @@ html body .estio-screen .chat-context-parties > div:not(:first-child) > span:las
 
 /* Templates: summary first, two representative work items, no edit-history
    noise on a broker's selection screen. */
-.template-assist {
+html body .estio-screen[data-screen='templates'] .template-assist {
+  padding: var(--space-md) !important;
   background: var(--surface-subtle) !important;
   border-color: var(--border) !important;
 }
+.template-grid-region { overflow: auto !important; }
+.template-grid { gap: var(--space-lg) !important; align-items: start; }
 .template-card {
-  gap: 12px !important;
-  padding: 18px !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: var(--space-md) !important;
+  padding: var(--space-lg) !important;
   border: 1px solid var(--border) !important;
   background: var(--surface-raised) !important;
   box-shadow: none !important;
   transition: background .15s, border-color .15s;
 }
 .template-card:hover { background: var(--surface) !important; border-color: var(--border-strong) !important; }
+.template-card-head > :first-child { gap: var(--space-2xs) !important; }
 .template-card-head > :last-child { background: var(--surface-subtle) !important; color: var(--ink-2) !important; }
-.template-card-forms { gap: 0 !important; }
-.template-card-forms > div { gap: 5px !important; }
+.template-card-forms { gap: var(--space-xs) !important; }
+.template-card-forms > div { gap: var(--space-xs) !important; }
 .template-card-forms > div > span {
   border-color: var(--border) !important;
   background: var(--surface-subtle) !important;
   color: var(--ink-2) !important;
 }
-.template-card-playbook { gap: 8px !important; }
+.template-card-playbook { gap: var(--space-sm) !important; }
 .template-card-summary > :first-child { color: var(--ink-2) !important; font-size: var(--type-caption) !important; font-weight: 500 !important; }
-.template-card-preview { padding: 4px 10px !important; background: var(--surface) !important; }
+.template-card-preview { padding: var(--space-xs) var(--space-sm) !important; background: var(--surface) !important; }
+.template-card-preview > * { min-height: 32px !important; height: auto !important; padding-block: var(--space-2xs); box-sizing: border-box; }
 .template-card-preview > :nth-child(n+3) { display: none !important; }
-.template-card-foot { justify-content: flex-start !important; padding-top: 8px !important; border-color: var(--border-subtle) !important; }
+.template-card-foot { justify-content: flex-start !important; padding-top: var(--space-sm) !important; border-color: var(--border-subtle) !important; }
+
+@media (max-width: 900px) {
+  .template-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 760px) {
+  html body .estio-screen[data-screen='templates'] .template-assist {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+  html body .estio-screen[data-screen='templates'] .template-assist > a { margin-left: 42px; }
+  .template-card { padding: var(--space-md) !important; }
+  .template-card-summary { align-items: flex-start !important; flex-direction: column; }
+}
 
 /* ChatGPT-style two-layer desktop navigation: persistent product rail +
    contextual panel. Product areas live in the rail; the panel stays focused
@@ -15471,7 +15492,10 @@ const Forms = {
       const message = $$('span', assist).find((node) => /Sofia can build/.test(ownText(node)));
       if (message) message.textContent = 'Reuse the forms and work items from a closed transaction.';
     }
-    const grid = main.children[2].children[0];
+    const gridRegion = main.children[2];
+    const grid = gridRegion.children[0];
+    gridRegion.classList.add('template-grid-region');
+    grid.classList.add('template-grid');
     const cards = [...grid.children];
     const sideOf = { 'buyer-standard': 'Buyer', 'seller-listing': 'Seller', 'counter-offer': 'Situational', 'contingency-removal': 'Situational' };
     const designedIds = Object.keys(sideOf);
