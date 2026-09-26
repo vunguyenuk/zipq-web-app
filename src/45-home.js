@@ -132,11 +132,9 @@ const Home = {
     // today (phone)
     const today = $('section[aria-label=Today]', root);
     if (today) {
-      const evs = todayEvents(); const rowP = today.children[1].cloneNode(true);
       [...today.children].slice(1).forEach((x) => x.remove());
-      $('a', today.children[0]).textContent = `${evs.length} scheduled`;
-      evs.forEach((e) => { const r = rowP.cloneNode(true); r.children[0].textContent = fmtTime(e.start); r.children[1].style.background = e.contract ? '#E25507' : EVENT_COLOR[e.type] || '#94A3B8'; const t = e.txId && txOf(e.txId); r.children[2].innerHTML = `${esc(e.title)}${t ? `<span style="font-weight: 400; color: #64748B; overflow: hidden; text-overflow: ellipsis;">· ${esc(txLabel(t))}</span>` : ''}`; onClick(r, () => Router.go(e.kind === 'event' ? '#/agenda/event/' + e.id : '#/tx/' + e.txId)); today.appendChild(r); });
-      if (!evs.length) today.appendChild(html('<div style="font-size:13px;color:#64748B">Nothing scheduled today.</div>'));
+      today.appendChild(html('<div class="today-list"></div>'));
+      renderToday(today, { compact: true });
     }
     const sug = $('a[aria-label^="Sofia suggests"]', root);
     if (sug) { const n = S.suggestions.items.length; if (!n) hide(sug); else { sug.children[1].children[0].textContent = `Sofia suggests · ${n}`; sug.children[1].children[1].textContent = S.suggestions.source; } }

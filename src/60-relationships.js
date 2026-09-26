@@ -420,7 +420,15 @@ const Contacts = {
       const el = (c.sub ? this.proto : this.protoPlain).cloneNode(true);
       el.children[0].textContent = c.name; el.children[1].textContent = c.company;
       const tp = el.children[2];
-      if (tp.children[0]) { tp.children[0].textContent = c.type; if (tp.children[1]) tp.children[1].textContent = c.sub; }
+      tp.classList.add('contact-type');
+      if (tp.children[0]) {
+        tp.children[0].classList.add('contact-type-label');
+        tp.children[0].textContent = c.type;
+        if (tp.children[1]) {
+          tp.children[1].classList.add('contact-role');
+          tp.children[1].textContent = c.company ? c.sub.replace(new RegExp(`\\s*·\\s*${c.company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'), '') : c.sub;
+        }
+      }
       el.children[3].textContent = c.license; el.children[4].textContent = c.phone;
       el.children[5].textContent = c.email; el.children[5].title = c.email;
       el.children[6].textContent = S.tx.filter((t) => (t.parties || []).some((p) => p[0] === c.name)).length || c.txCount;

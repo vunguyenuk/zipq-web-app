@@ -103,8 +103,11 @@ Validation: leave the entered value intact; show the error next to the field; se
 | Product rail / side menu | `.app-rail`, `.app-navigation-sidebar`, `[data-tooltip]` | One gray surface shared by rail, menu and transparent logo/actions header; 56px rail, visible active item, hover/focus tooltip, a single Search/notification entry. |
 | Tabs / segmented view | `.page-tabs`, `.agenda-view-tabs`, `.ui-chip` | One navigation bar per content area; active item is white on muted track. Use `role=tablist`, `aria-selected`, and Left/Right/Home/End keys for real tabs. |
 | Data grid / row | `.data-grid`, `.data-grid-row` | One outer boundary, light header, equal four-sided cell padding, one divider per row, no independently rounded row cards. Headers and cells align to the same column grid. |
+| Passive border / divider | `--border`, `--border-subtle` | Use the neutral ChatGPT-light alpha border. `--border` defines controls and outer surfaces; `--border-subtle` separates passive rows. Avoid blue-gray one-off borders and nested outlines. |
 | Interactive work row | `.agenda-flat-row`, `.playbook-item`, `.interactive-row` | Title remains readable at the body role, metadata uses supporting role, checkbox column matches the row inset. Whole-row navigation must not hijack an embedded checkbox/button. |
-| Timeline | `.client-followup-timeline`, `.transaction-log-row` | Date and description share a baseline; date column is max-content or stable-width, tabular numerals; neither column overlaps. |
+| Timeline | `.today-list`, `.client-followup-timeline`, `.transaction-log-row` | Date and description share a baseline; date column is max-content or stable-width, tabular numerals; marker, track and current-time rule share one axis; neither column overlaps. |
+| Disclosure row | `.form-disclosure-button`, `.playbook-group > button` | Native button, 28px visible control within a 44px row target, persistent `aria-expanded`, linked `aria-controls`, keyboard activation, and a down/right chevron that matches state. |
+| Template summary card | `.template-card`, `.template-card-preview` | Name and purpose first; form codes second; no more than two representative work items; usage may remain, edit-history does not. One neutral outer border and no nested card outline. |
 | Drawer / modal / menu | `.client-detail-modal`, `.drawer`, `.modal`, `.menu` | Menu for small choices, drawer for context-preserving detail, modal only for a decision. Focus enters and returns predictably; content scrolls without trapping the page. |
 | Toast / empty state | `.toast`, `.empty-note` | State what happened and the next available action; temporary feedback does not replace persistent status. |
 
@@ -115,7 +118,7 @@ Validation: leave the entered value intact; show the error next to the field; se
 - **Transaction dossier:** Main work column plus contextual participants/documents rail. Tasks, checklist and documents disclose in flow. Count sits beside its arrow. Both the page and long detail content scroll; deadlines remain recognizable without relying only on color.
 - **Clients / Follow-ups:** Client list remains visible behind an independently scrolling detail panel. Call/Email/Message/View transaction are peers, fit one line when space permits and retain 12px inline padding/44px targets. View transaction is navigation (no plus). Draft approval has one path; Review may open an editable draft before send.
 - **Communication log:** Aggregate tab is **Chat**, not All. Email shows sender, recipients, subject, timestamp and body; SMS shows directional bubbles, sender/phone and time; Calls show participant, start, end and duration; DocuSign shows envelope, recipient and verified status. Never fabricate a handwritten signature.
-- **Playbook:** Work item, Due, Owner and Reminder align on one grid. At a constrained container, title occupies the first row and metadata moves together to the second. Group arrow and label remain adjacent.
+- **Forms and playbook:** Template cards lead with name, purpose, form codes and a short work preview; omit edit-history noise from the selection surface. Work item, Due, Owner and Reminder align on one grid until the component is genuinely constrained. Every form and group arrow is an operable disclosure button.
 
 ## 5. State and accessibility matrix
 

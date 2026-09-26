@@ -52,7 +52,7 @@ function channelView(t, filter) {
       const recipients = env.recipients || [];
       const signed = recipients.filter((r) => r.status === 'Signed').length;
       const status = env.status === 'out' ? 'Out for signature' : env.status === 'signed' ? 'Completed' : env.status;
-      return `<section class="channel-envelope" aria-label="${esc(env.name)} envelope"><div class="channel-envelope-head"><div><span class="channel-kicker">DocuSign · ${esc(env.code || env.id)}</span><h3>${esc(env.name)}</h3><span>Sent ${esc(shortDate(env.sent))} by ${esc(env.by || 'Unknown sender')}</span></div><span class="channel-status">${esc(status || 'Status unavailable')}</span></div><div class="channel-signers"><div class="channel-signers-heading"><span>Signers</span><span>${signed} of ${recipients.length} signed</span></div>${recipients.map((r, i) => `<div class="channel-signer"><span class="channel-step">${i + 1}</span><div class="channel-signer-name"><strong>${esc(r.name)}</strong><span>${esc(r.role || 'Signer')}</span></div><div class="channel-signature${r.status === 'Signed' ? ' is-signed' : ''}"><span>${r.status === 'Signed' ? '✓ Signed electronically' : 'Signature pending'}</span><small>${esc(r.note || r.status || '')}</small></div></div>`).join('')}</div><div class="channel-envelope-foot"><span>Signature status comes from the envelope record; the signed document is not previewed here.</span><a href="#/tx/${esc(t.id)}/documents">View document →</a></div></section>`;
+      return `<section class="channel-envelope" aria-label="${esc(env.name)} envelope"><div class="channel-envelope-head"><div><span class="channel-kicker">${esc(env.code || env.id)} · DocuSign</span><h3>${esc(env.name)}</h3><span>Sent ${esc(shortDate(env.sent))} · ${esc(env.by || 'Unknown sender')}</span></div><span class="channel-status">${esc(status || 'Status unavailable')}</span></div><div class="channel-signers"><div class="channel-signers-heading"><span>${recipients.length} signer${recipients.length === 1 ? '' : 's'}</span><span>${signed} signed</span></div>${recipients.map((r, i) => `<div class="channel-signer"><span class="channel-step">${i + 1}</span><div class="channel-signer-name"><strong>${esc(r.name)}</strong><span>${esc(r.role || 'Signer')}</span></div><div class="channel-signature${r.status === 'Signed' ? ' is-signed' : ''}"><strong>${r.status === 'Signed' ? 'Signed' : 'Pending'}</strong><small>${esc(r.note || r.status || '')}</small></div></div>`).join('')}</div><div class="channel-envelope-foot"><a href="#/tx/${esc(t.id)}/documents">Open document →</a></div></section>`;
     }).join('')}</div>` : empty('DocuSign envelopes');
   }
   return '';
@@ -176,8 +176,10 @@ const TxDetail = {
     const tKey = 'ov-tasks:' + t.id;
     const expanded = !!S.collapsed[tKey];
     const tbtn = tasksRow.children[4];
+    tbtn.type = 'button'; tbtn.setAttribute('aria-expanded', String(expanded));
+    tbtn.setAttribute('aria-label', `${expanded ? 'Collapse' : 'Expand'} tasks`);
     tbtn.style.transform = expanded ? 'rotate(90deg)' : ''; tbtn.style.transition = 'transform .15s';
-    onClick(tasksRow, () => { S.collapsed[tKey] = !expanded; saveDB(); Router.refresh(); });
+    onClick(tbtn, (event) => { event?.stopPropagation(); S.collapsed[tKey] = !expanded; saveDB(); Router.refresh(); });
     if (expanded) {
       const list = html(`<div data-dyn="1" style="padding: 2px 0 8px"></div>`);
       list.innerHTML = open.map((w) => taskLineHTML(w)).join('') + `<div style="display:flex;gap:14px;padding:6px 18px 4px 48px"><a href="#" data-addtask style="font-size:13.5px;font-weight:500">+ Add task</a><a href="#/agenda?tx=${t.id}" style="font-size:13.5px;color:#64748B">Open in Agenda</a></div>`;
@@ -193,8 +195,11 @@ const TxDetail = {
     const clInfo = clRow.children[3];
     clInfo.innerHTML = `<span>Transaction <span style="color:#020617;font-weight:600">${cl.done}/${cl.total}</span></span>${draftDocs.length ? ` <span>·</span> <span>Forms: <span style="color:#8A5A00;font-weight:500">${esc(draftDocs[0].code)} ${draftDocs[0].status === 'draft' ? draftDocs[0].progress + '%' : draftDocs[0].status === 'out' ? 'out for signature' : 'not started'}</span></span>` : ''}`;
     const cKey = 'ov-cl:' + t.id; const cCollapsed = !!S.collapsed[cKey];
-    onClick(clRow, () => { S.collapsed[cKey] = !cCollapsed; saveDB(); Router.refresh(); });
-    clRow.children[4].style.transform = cCollapsed ? 'rotate(-90deg)' : '';
+    const clButton = clRow.children[4];
+    clButton.type = 'button'; clButton.setAttribute('aria-expanded', String(!cCollapsed));
+    clButton.setAttribute('aria-label', `${cCollapsed ? 'Expand' : 'Collapse'} checklist`);
+    onClick(clButton, (event) => { event?.stopPropagation(); S.collapsed[cKey] = !cCollapsed; saveDB(); Router.refresh(); });
+    clButton.style.transform = cCollapsed ? 'rotate(-90deg)' : '';
     if (cCollapsed) hide(clArea);
     else {
       clArea.classList.add('checklist-preview');
@@ -404,6 +409,7 @@ const TxDetail = {
       const offerT = S.tasks.find((w) => w.txId === t.id && /offer expires/i.test(w.title));
       if (offerT && S.ui['rpa-exp-filled']) $$('.row', forms).filter((r) => /^Offer expiration/.test(text(r))).forEach((r) => markFilled(r, relWhen(offerT.due, offerT.time)));
     }
+    bindFormDisclosures(forms, t, docs, designed);
     // Sofia check aside
     const aside = $('aside[aria-label="Checklist details"]', app);
     if (aside) {
@@ -423,6 +429,61 @@ const TxDetail = {
       const pin = [...r.querySelectorAll('svg')].find((x) => x.children.length === 1 && x.firstElementChild.tagName.toLowerCase() === 'circle');
       if (pin) pin.outerHTML = '<span style="width: 18px; height: 18px; border-radius: 50%; background: #E4F5EC; color: #1F7A55; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></span>';
       void v;
+    }
+
+    function bindFormDisclosures(container, tx, formDocs, isDesigned) {
+      S.ui = S.ui || {};
+      const bind = (button, label, rows, defaultOpen) => {
+        const key = `form-checklist:${tx.id}:${label}`;
+        const open = Object.prototype.hasOwnProperty.call(S.ui, key) ? !!S.ui[key] : defaultOpen;
+        const contentId = `form-checklist-${tx.id}-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+        button.type = 'button';
+        button.classList.add('form-disclosure-button');
+        button.setAttribute('aria-controls', contentId);
+        if (rows[0]) rows[0].id = contentId;
+        const apply = (nextOpen) => {
+          button.setAttribute('aria-expanded', String(nextOpen));
+          button.setAttribute('aria-label', `${nextOpen ? 'Collapse' : 'Expand'} ${label}`);
+          rows.forEach((row) => { row.hidden = !nextOpen; });
+        };
+        apply(open);
+        onClick(button, (event) => {
+          event?.stopPropagation();
+          const nextOpen = button.getAttribute('aria-expanded') !== 'true';
+          S.ui[key] = nextOpen;
+          saveDB();
+          apply(nextOpen);
+        });
+      };
+
+      const primary = $('button[aria-expanded]', container);
+      if (primary) {
+        const summaryRow = primary.parentElement;
+        const wrapper = summaryRow.parentElement;
+        const code = ($('[style*="Geist Mono"]', summaryRow)?.textContent || 'RPA').trim();
+        const detailRows = [...wrapper.children].filter((node) => node !== summaryRow && node.classList.contains('row'));
+        wrapper.classList.add('form-checklist-group');
+        summaryRow.classList.add('form-checklist-summary');
+        bind(primary, code, detailRows, true);
+      }
+
+      [...container.children].filter((row) => row.classList.contains('row')).forEach((row) => {
+        const code = ($('[style*="Geist Mono"]', row)?.textContent || '').trim();
+        if (!code) return;
+        row.classList.add('form-checklist-summary');
+        const oldIcon = row.firstElementChild;
+        const button = document.createElement('button');
+        button.className = 'form-disclosure-button';
+        button.innerHTML = CHEV_DOWN;
+        oldIcon?.replaceWith(button);
+        const doc = formDocs.find((item) => item.code === code) || {};
+        const complete = doc.status === 'signed' || doc.status === 'out' || doc.progress >= 100;
+        const detail = html(`<div class="form-checklist-detail"><span>${complete ? 'Fields complete' : `${doc.progress || 0}% of fields complete`}</span><span>${doc.status === 'out' ? 'Awaiting signatures' : doc.status === 'signed' ? 'Signed' : 'Open form to continue'}</span><a href="#/form/${esc(tx.id)}/${esc(code)}">Open form →</a></div>`);
+        row.after(detail);
+        bind(button, code, [detail], false);
+      });
+      container.classList.add('form-checklists');
+      if (!isDesigned) container.classList.add('is-generated');
     }
   },
 

@@ -590,6 +590,7 @@ button[aria-pressed="true"]:not([data-mode-btn]):not([aria-label*="mode" i] > *)
   --surface-subtle: #f3f3f3;
   --surface-muted: #ededed;
   --border: #0000001a;
+  --border-subtle: #00000012;
   --border-strong: #00000026;
 
   /* Exact current ChatGPT light-theme tokens, sampled from the live product. */
@@ -2168,6 +2169,211 @@ html body .estio-screen .chat-context-parties > div:not(:first-child) > span:las
     padding: 28px 22px !important;
   }
 }
+
+/* ── Quiet operational surfaces ──────────────────────────────────
+   Passive boundaries use ChatGPT's neutral alpha borders. The stronger
+   token is reserved for controls, focus and deliberate separation. */
+.estio-screen [style*='border: 1px solid #E2E8F0'],
+.estio-screen [style*='border-top: 1px solid #E2E8F0'],
+.estio-screen [style*='border-bottom: 1px solid #E2E8F0'],
+.estio-screen [style*='border: 1px solid #D6E4FA'],
+.estio-screen [style*='border-top: 1px solid #F1F5F9'],
+.estio-screen [style*='border-bottom: 1px solid #F1F5F9'] {
+  border-color: var(--border) !important;
+}
+
+/* Today: one geometry for event dots, the vertical track and current time. */
+.today-card { container-type: inline-size; }
+.today-list {
+  --today-time-column: 68px;
+  --today-marker-column: 12px;
+  --today-gap: 10px;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px !important;
+  min-width: 0;
+}
+.today-track {
+  position: absolute;
+  z-index: 0;
+  top: 7px;
+  bottom: 7px;
+  left: calc(var(--today-time-column) + var(--today-gap) + 5.5px);
+  width: 1px;
+  background: var(--border);
+}
+.today-event {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--today-time-column) var(--today-marker-column) minmax(0, 1fr);
+  column-gap: var(--today-gap);
+  align-items: center;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+.today-event time,
+.today-now time {
+  color: var(--ink-2);
+  font-size: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.today-marker {
+  width: 10px;
+  height: 10px;
+  justify-self: center;
+  border-radius: 50%;
+  background: var(--today-marker);
+  box-shadow: 0 0 0 3px var(--surface-raised);
+}
+.today-event-copy {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.today-event-copy strong {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-size: var(--type-compact);
+  font-weight: 500;
+  text-overflow: ellipsis;
+}
+.today-event-context {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: var(--type-caption);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.today-event-context::before { content: '·'; color: var(--ink-2); }
+.today-event-context.is-contract { color: #b74200; }
+.today-event-context svg { width: 13px; height: 13px; flex: 0 0 auto; }
+.today-event.is-past { color: var(--ink-2); }
+.today-now {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: var(--today-time-column) minmax(0, 1fr);
+  column-gap: var(--today-gap);
+  align-items: center;
+}
+.today-now time { color: var(--danger); font-weight: 600; }
+.today-now-rule { display: flex; align-items: center; min-width: 0; height: 10px; }
+.today-now-rule::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+.today-now-rule span { height: 2px; flex: 1; background: var(--danger); }
+.today-empty { padding-left: calc(var(--today-time-column) + var(--today-marker-column) + var(--today-gap) * 2); color: var(--ink-2); font-size: var(--type-caption); }
+@container (max-width: 360px) {
+  .today-list { --today-time-column: 72px; --today-gap: 8px; }
+  .today-event-context { display: none; }
+}
+
+/* Form checklist and playbook disclosure controls share one state model. */
+.form-disclosure-button,
+.playbook-group > button {
+  display: grid !important;
+  place-items: center;
+  width: 28px !important;
+  height: 28px !important;
+  flex: 0 0 28px;
+  margin: -4px 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: var(--radius-control);
+  background: transparent !important;
+  color: var(--ink-2) !important;
+  transition: background .15s, transform .15s;
+}
+.form-disclosure-button:hover,
+.playbook-group > button:hover { background: var(--ghost) !important; }
+.form-disclosure-button[aria-expanded='false'],
+.playbook-group > button[aria-expanded='false'] { transform: rotate(-90deg); }
+.form-disclosure-button[aria-expanded='true'],
+.playbook-group > button[aria-expanded='true'] { transform: rotate(0); }
+.form-checklists .form-checklist-summary { min-height: 52px; }
+.form-checklist-detail {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(150px, 1fr) max-content;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 20px 10px 60px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: var(--type-caption);
+}
+.form-checklist-detail a { color: var(--ink); font-weight: 500; text-decoration: none; white-space: nowrap; }
+.form-checklist-detail[hidden] { display: none !important; }
+@media (max-width: 700px) {
+  .form-checklist-detail { grid-template-columns: 1fr; gap: 4px; padding-left: 56px; }
+}
+
+/* Playbooks stay tabular while space exists; supporting copy is revealed by
+   the column heading, so rows do not repeat “Task” and trigger explanations. */
+.playbook-work-items .playbook-item { min-height: 54px; padding-block: 8px !important; }
+.playbook-work-items .playbook-item > :first-child > :last-child > :last-child > span:last-child,
+.playbook-work-items .playbook-item > :nth-child(2) > span:last-child { display: none !important; }
+.playbook-work-items .playbook-item > :nth-child(2),
+.playbook-work-items .playbook-item > :nth-child(4) { white-space: nowrap; }
+/* Contact type and role remain on one scan line until the mobile card layout. */
+@media (min-width: 761px) {
+  .contact-table .contact-type {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .contact-table .contact-type-label,
+  .contact-table .contact-role { flex: 0 0 auto; }
+}
+
+/* Templates: summary first, two representative work items, no edit-history
+   noise on a broker's selection screen. */
+.template-assist {
+  background: var(--surface-subtle) !important;
+  border-color: var(--border) !important;
+}
+.template-card {
+  gap: 12px !important;
+  padding: 18px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface-raised) !important;
+  box-shadow: none !important;
+  transition: background .15s, border-color .15s;
+}
+.template-card:hover { background: var(--surface) !important; border-color: var(--border-strong) !important; }
+.template-card-head > :last-child { background: var(--surface-subtle) !important; color: var(--ink-2) !important; }
+.template-card-forms { gap: 0 !important; }
+.template-card-forms > div { gap: 5px !important; }
+.template-card-forms > div > span {
+  border-color: var(--border) !important;
+  background: var(--surface-subtle) !important;
+  color: var(--ink-2) !important;
+}
+.template-card-playbook { gap: 8px !important; }
+.template-card-summary > :first-child { color: var(--ink-2) !important; font-size: var(--type-caption) !important; font-weight: 500 !important; }
+.template-card-preview { padding: 4px 10px !important; background: var(--surface) !important; }
+.template-card-preview > :nth-child(n+3) { display: none !important; }
+.template-card-foot { justify-content: flex-start !important; padding-top: 8px !important; border-color: var(--border-subtle) !important; }
 
 /* ChatGPT-style two-layer desktop navigation: persistent product rail +
    contextual panel. Product areas live in the rail; the panel stays focused
@@ -5497,16 +5703,17 @@ html body .estio-screen[data-screen='contacts'] .contact-table {
   container-type: inline-size;
 }
 
-@container (min-width: 1100px) {
+@container (min-width: 900px) {
   html body .estio-screen[data-screen='contacts'] .contact-table > .data-grid-row {
     grid-template-columns:
-      minmax(112px, .8fr)
-      minmax(186px, 1.5fr)
-      minmax(190px, 1.65fr)
-      minmax(104px, .8fr)
-      minmax(118px, .95fr)
-      minmax(0, 1.45fr)
-      102px !important;
+      minmax(110px, .8fr)
+      minmax(145px, 1.15fr)
+      minmax(225px, 1.65fr)
+      minmax(90px, .7fr)
+      minmax(108px, .85fr)
+      minmax(115px, 1fr)
+      80px !important;
+    gap: 10px !important;
   }
 }
 
@@ -5621,7 +5828,7 @@ html body .estio-screen[data-screen='txOverview'] .tx-overview-summary-row > :nt
   font-size: 13px !important; font-weight: 600 !important;
   letter-spacing: 0 !important; text-transform: none !important;
 }
-@container (max-width: 600px) {
+@container (max-width: 480px) {
   .playbook-work-items .playbook-columns { display: none !important; }
   .playbook-work-items .playbook-item {
     grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, 1fr) !important;
@@ -5702,6 +5909,27 @@ html body .estio-screen:is([data-screen='txChecklist'], [data-screen='txDocument
   max-height: none !important;
   overflow: visible !important;
 }
+
+/* Final-state overrides live after the imported-screen compatibility layer. */
+.playbook-work-items .playbook-item[hidden],
+.form-checklist-group > .row[hidden] { display: none !important; }
+.playbook-work-items .playbook-item { min-height: 54px; padding-block: 8px !important; }
+[data-screen='txLog'] .channel-envelope { padding: 16px; border-color: var(--border); border-radius: var(--radius-panel); }
+[data-screen='txLog'] .channel-envelope-head > div { gap: 3px; }
+[data-screen='txLog'] .channel-signers { margin-top: 12px; }
+[data-screen='txLog'] .channel-signers-heading { padding: 10px 0 6px; }
+[data-screen='txLog'] .channel-signer {
+  grid-template-columns: 24px minmax(0, 1fr) minmax(150px, max-content);
+  min-height: 48px;
+  padding: 8px 0;
+  border-color: var(--border-subtle);
+}
+[data-screen='txLog'] .channel-step { width: 22px; height: 22px; background: var(--surface-subtle); }
+[data-screen='txLog'] .channel-signer-name,
+[data-screen='txLog'] .channel-signature { gap: 1px; }
+[data-screen='txLog'] .channel-signature { text-align: right; }
+[data-screen='txLog'] .channel-signature strong { font-size: var(--type-caption); font-weight: 500; }
+[data-screen='txLog'] .channel-envelope-foot { justify-content: flex-end; margin-top: 10px; }
 
 @media (max-width: 1080px) {
   html body .estio-screen .layout-root { --active-page-rail: var(--page-rail-tablet); }
@@ -12328,27 +12556,28 @@ function todayEvents() {
 }
 function renderToday(section, { compact = false } = {}) {
   if (!section) return;
+  section.classList.add('today-card');
   const evs = todayEvents();
   const link = $('a', section.firstElementChild); if (link) link.textContent = `${evs.length} scheduled`;
   const list = section.children[1];
+  list.classList.add('today-list');
   const nowT = new Date(); const nowS = `${String(nowT.getHours()).padStart(2, '0')}:${String(nowT.getMinutes()).padStart(2, '0')}`;
-  let out = '<span style="position: absolute; left: 64px; top: 8px; bottom: 8px; width: 1px; background: #0000001A;"></span>';
+  let out = '<span class="today-track" aria-hidden="true"></span>';
   let nowDone = false;
-  const nowLine = `<div style="display: grid; grid-template-columns: 50px minmax(0, 1fr); column-gap: 9px; align-items: center; position: relative;"><span style="font-size: 12px; font-weight: 600; color: #BA2623; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums;">${fmtTimeFull(nowS)}</span><span style="display: flex; align-items: center;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #BA2623; margin-left: 3px; flex-shrink: 0;"></span><span style="flex-grow: 1; height: 2px; background: #BA2623;"></span></span></div>`;
+  const nowLine = `<div class="today-now" aria-label="Current time ${esc(fmtTimeFull(nowS))}"><time>${esc(fmtTimeFull(nowS))}</time><span class="today-now-rule" aria-hidden="true"><span></span></span></div>`;
   evs.forEach((e) => {
     if (!nowDone && e.start > nowS) { out += nowLine; nowDone = true; }
     const past = e.start < nowS;
     const t = e.txId && txOf(e.txId);
     const col = e.contract ? '#E25507' : EVENT_COLOR[e.type] || '#8F8F8F';
-    const sub = compact ? '' : (e.contract ? `Contract deadline${t ? ' · ' + txLabel(t) : ''}` : `${e.type}${t ? ' · ' + txLabel(t) : ''}`);
     const title = e.contract
-      ? `<span style="display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 13px; font-weight: 500; color: ${past ? '#5D5D5D' : '#0D0D0D'}; white-space: nowrap;">${esc(e.title)}<span style="color: #E25507; display: flex;">${LOCK}</span><span style="font-weight: 400; color: #E25507; overflow: hidden; text-overflow: ellipsis;">${t ? esc(txLabel(t).replace(/ Street$| Avenue$/, '')) : ''}</span></span>`
-      : `<span style="font-size: 13px; font-weight: 500; color: ${past ? '#5D5D5D' : '#0D0D0D'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(e.title)} <span style="font-weight: 400; color: #5D5D5D;">· ${esc(t ? txLabel(t).replace(/ Avenue$/, '') : e.type)}</span></span>`;
-    out += `<a href="${e.kind === 'event' ? '#/agenda/event/' + e.id : '#/tx/' + e.txId}" style="display: grid; grid-template-columns: 50px 12px minmax(0, 1fr); column-gap: 9px; align-items: center; text-decoration: none; color: inherit;"><span style="font-size: 12px; color: #5D5D5D; text-align: right; font-variant-numeric: tabular-nums;">${fmtTime(e.start)}</span><span style="width: 10px; height: 10px; margin: 0 auto; border-radius: 50%; background: ${col}; box-shadow: 0 0 0 3px #FFFFFF; position: relative;"></span>${title}</a>`;
-    void sub;
+      ? `<span class="today-event-copy"><strong>${esc(e.title)}</strong><span class="today-event-context is-contract">${LOCK}${t ? esc(txLabel(t).replace(/ Street$| Avenue$/, '')) : 'Contract deadline'}</span></span>`
+      : `<span class="today-event-copy"><strong>${esc(e.title)}</strong><span class="today-event-context">${esc(t ? txLabel(t).replace(/ Avenue$/, '') : e.type)}</span></span>`;
+    const fullLabel = [fmtTime(e.start), e.title, t ? txLabel(t) : e.type].filter(Boolean).join(', ');
+    out += `<a class="today-event${past ? ' is-past' : ''}${compact ? ' is-compact' : ''}" href="${e.kind === 'event' ? '#/agenda/event/' + e.id : '#/tx/' + e.txId}" aria-label="${esc(fullLabel)}" title="${esc(fullLabel)}"><time>${esc(fmtTime(e.start))}</time><span class="today-marker" style="--today-marker:${col}" aria-hidden="true"></span>${title}</a>`;
   });
   if (!nowDone) out += nowLine;
-  if (!evs.length) out += '<div style="font-size:13px;color:#5D5D5D;padding-left:73px">Nothing scheduled today.</div>';
+  if (!evs.length) out += '<div class="today-empty">Nothing scheduled today.</div>';
   list.innerHTML = out;
 }
 
@@ -13452,11 +13681,9 @@ const Home = {
     // today (phone)
     const today = $('section[aria-label=Today]', root);
     if (today) {
-      const evs = todayEvents(); const rowP = today.children[1].cloneNode(true);
       [...today.children].slice(1).forEach((x) => x.remove());
-      $('a', today.children[0]).textContent = `${evs.length} scheduled`;
-      evs.forEach((e) => { const r = rowP.cloneNode(true); r.children[0].textContent = fmtTime(e.start); r.children[1].style.background = e.contract ? '#E25507' : EVENT_COLOR[e.type] || '#8F8F8F'; const t = e.txId && txOf(e.txId); r.children[2].innerHTML = `${esc(e.title)}${t ? `<span style="font-weight: 400; color: #5D5D5D; overflow: hidden; text-overflow: ellipsis;">· ${esc(txLabel(t))}</span>` : ''}`; onClick(r, () => Router.go(e.kind === 'event' ? '#/agenda/event/' + e.id : '#/tx/' + e.txId)); today.appendChild(r); });
-      if (!evs.length) today.appendChild(html('<div style="font-size:13px;color:#5D5D5D">Nothing scheduled today.</div>'));
+      today.appendChild(html('<div class="today-list"></div>'));
+      renderToday(today, { compact: true });
     }
     const sug = $('a[aria-label^="Suggested by Sofia"]', root);
     if (sug) { const n = S.suggestions.items.length; if (!n) hide(sug); else { sug.children[1].children[0].textContent = `Suggested by Sofia · ${n}`; sug.children[1].children[1].textContent = S.suggestions.source; } }
@@ -13526,7 +13753,7 @@ function channelView(t, filter) {
       const recipients = env.recipients || [];
       const signed = recipients.filter((r) => r.status === 'Signed').length;
       const status = env.status === 'out' ? 'Out for signature' : env.status === 'signed' ? 'Completed' : env.status;
-      return `<section class="channel-envelope" aria-label="${esc(env.name)} envelope"><div class="channel-envelope-head"><div><span class="channel-kicker">DocuSign · ${esc(env.code || env.id)}</span><h3>${esc(env.name)}</h3><span>Sent ${esc(shortDate(env.sent))} by ${esc(env.by || 'Unknown sender')}</span></div><span class="channel-status">${esc(status || 'Status unavailable')}</span></div><div class="channel-signers"><div class="channel-signers-heading"><span>Signers</span><span>${signed} of ${recipients.length} signed</span></div>${recipients.map((r, i) => `<div class="channel-signer"><span class="channel-step">${i + 1}</span><div class="channel-signer-name"><strong>${esc(r.name)}</strong><span>${esc(r.role || 'Signer')}</span></div><div class="channel-signature${r.status === 'Signed' ? ' is-signed' : ''}"><span>${r.status === 'Signed' ? '✓ Signed electronically' : 'Signature pending'}</span><small>${esc(r.note || r.status || '')}</small></div></div>`).join('')}</div><div class="channel-envelope-foot"><span>Signature status comes from the envelope record; the signed document is not previewed here.</span><a href="#/tx/${esc(t.id)}/documents">View document →</a></div></section>`;
+      return `<section class="channel-envelope" aria-label="${esc(env.name)} envelope"><div class="channel-envelope-head"><div><span class="channel-kicker">${esc(env.code || env.id)} · DocuSign</span><h3>${esc(env.name)}</h3><span>Sent ${esc(shortDate(env.sent))} · ${esc(env.by || 'Unknown sender')}</span></div><span class="channel-status">${esc(status || 'Status unavailable')}</span></div><div class="channel-signers"><div class="channel-signers-heading"><span>${recipients.length} signer${recipients.length === 1 ? '' : 's'}</span><span>${signed} signed</span></div>${recipients.map((r, i) => `<div class="channel-signer"><span class="channel-step">${i + 1}</span><div class="channel-signer-name"><strong>${esc(r.name)}</strong><span>${esc(r.role || 'Signer')}</span></div><div class="channel-signature${r.status === 'Signed' ? ' is-signed' : ''}"><strong>${r.status === 'Signed' ? 'Signed' : 'Pending'}</strong><small>${esc(r.note || r.status || '')}</small></div></div>`).join('')}</div><div class="channel-envelope-foot"><a href="#/tx/${esc(t.id)}/documents">Open document →</a></div></section>`;
     }).join('')}</div>` : empty('DocuSign envelopes');
   }
   return '';
@@ -13650,8 +13877,10 @@ const TxDetail = {
     const tKey = 'ov-tasks:' + t.id;
     const expanded = !!S.collapsed[tKey];
     const tbtn = tasksRow.children[4];
+    tbtn.type = 'button'; tbtn.setAttribute('aria-expanded', String(expanded));
+    tbtn.setAttribute('aria-label', `${expanded ? 'Collapse' : 'Expand'} tasks`);
     tbtn.style.transform = expanded ? 'rotate(90deg)' : ''; tbtn.style.transition = 'transform .15s';
-    onClick(tasksRow, () => { S.collapsed[tKey] = !expanded; saveDB(); Router.refresh(); });
+    onClick(tbtn, (event) => { event?.stopPropagation(); S.collapsed[tKey] = !expanded; saveDB(); Router.refresh(); });
     if (expanded) {
       const list = html(`<div data-dyn="1" style="padding: 2px 0 8px"></div>`);
       list.innerHTML = open.map((w) => taskLineHTML(w)).join('') + `<div style="display:flex;gap:14px;padding:6px 18px 4px 48px"><a href="#" data-addtask style="font-size:13.5px;font-weight:500">+ Add task</a><a href="#/agenda?tx=${t.id}" style="font-size:13.5px;color:#5D5D5D">Open in Agenda</a></div>`;
@@ -13667,8 +13896,11 @@ const TxDetail = {
     const clInfo = clRow.children[3];
     clInfo.innerHTML = `<span>Transaction <span style="color:#0D0D0D;font-weight:600">${cl.done}/${cl.total}</span></span>${draftDocs.length ? ` <span>·</span> <span>Forms: <span style="color:#916F00;font-weight:500">${esc(draftDocs[0].code)} ${draftDocs[0].status === 'draft' ? draftDocs[0].progress + '%' : draftDocs[0].status === 'out' ? 'out for signature' : 'not started'}</span></span>` : ''}`;
     const cKey = 'ov-cl:' + t.id; const cCollapsed = !!S.collapsed[cKey];
-    onClick(clRow, () => { S.collapsed[cKey] = !cCollapsed; saveDB(); Router.refresh(); });
-    clRow.children[4].style.transform = cCollapsed ? 'rotate(-90deg)' : '';
+    const clButton = clRow.children[4];
+    clButton.type = 'button'; clButton.setAttribute('aria-expanded', String(!cCollapsed));
+    clButton.setAttribute('aria-label', `${cCollapsed ? 'Expand' : 'Collapse'} checklist`);
+    onClick(clButton, (event) => { event?.stopPropagation(); S.collapsed[cKey] = !cCollapsed; saveDB(); Router.refresh(); });
+    clButton.style.transform = cCollapsed ? 'rotate(-90deg)' : '';
     if (cCollapsed) hide(clArea);
     else {
       clArea.classList.add('checklist-preview');
@@ -13878,6 +14110,7 @@ const TxDetail = {
       const offerT = S.tasks.find((w) => w.txId === t.id && /offer expires/i.test(w.title));
       if (offerT && S.ui['rpa-exp-filled']) $$('.row', forms).filter((r) => /^Offer expiration/.test(text(r))).forEach((r) => markFilled(r, relWhen(offerT.due, offerT.time)));
     }
+    bindFormDisclosures(forms, t, docs, designed);
     // Suggested by Sofia aside
     const aside = $('aside[aria-label="Checklist details"]', app);
     if (aside) {
@@ -13897,6 +14130,61 @@ const TxDetail = {
       const pin = [...r.querySelectorAll('svg')].find((x) => x.children.length === 1 && x.firstElementChild.tagName.toLowerCase() === 'circle');
       if (pin) pin.outerHTML = '<span style="width: 18px; height: 18px; border-radius: 50%; background: #B8EBCC; color: #00A240; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></span>';
       void v;
+    }
+
+    function bindFormDisclosures(container, tx, formDocs, isDesigned) {
+      S.ui = S.ui || {};
+      const bind = (button, label, rows, defaultOpen) => {
+        const key = `form-checklist:${tx.id}:${label}`;
+        const open = Object.prototype.hasOwnProperty.call(S.ui, key) ? !!S.ui[key] : defaultOpen;
+        const contentId = `form-checklist-${tx.id}-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+        button.type = 'button';
+        button.classList.add('form-disclosure-button');
+        button.setAttribute('aria-controls', contentId);
+        if (rows[0]) rows[0].id = contentId;
+        const apply = (nextOpen) => {
+          button.setAttribute('aria-expanded', String(nextOpen));
+          button.setAttribute('aria-label', `${nextOpen ? 'Collapse' : 'Expand'} ${label}`);
+          rows.forEach((row) => { row.hidden = !nextOpen; });
+        };
+        apply(open);
+        onClick(button, (event) => {
+          event?.stopPropagation();
+          const nextOpen = button.getAttribute('aria-expanded') !== 'true';
+          S.ui[key] = nextOpen;
+          saveDB();
+          apply(nextOpen);
+        });
+      };
+
+      const primary = $('button[aria-expanded]', container);
+      if (primary) {
+        const summaryRow = primary.parentElement;
+        const wrapper = summaryRow.parentElement;
+        const code = ($('[style*="Geist Mono"]', summaryRow)?.textContent || 'RPA').trim();
+        const detailRows = [...wrapper.children].filter((node) => node !== summaryRow && node.classList.contains('row'));
+        wrapper.classList.add('form-checklist-group');
+        summaryRow.classList.add('form-checklist-summary');
+        bind(primary, code, detailRows, true);
+      }
+
+      [...container.children].filter((row) => row.classList.contains('row')).forEach((row) => {
+        const code = ($('[style*="Geist Mono"]', row)?.textContent || '').trim();
+        if (!code) return;
+        row.classList.add('form-checklist-summary');
+        const oldIcon = row.firstElementChild;
+        const button = document.createElement('button');
+        button.className = 'form-disclosure-button';
+        button.innerHTML = CHEV_DOWN;
+        oldIcon?.replaceWith(button);
+        const doc = formDocs.find((item) => item.code === code) || {};
+        const complete = doc.status === 'signed' || doc.status === 'out' || doc.progress >= 100;
+        const detail = html(`<div class="form-checklist-detail"><span>${complete ? 'Fields complete' : `${doc.progress || 0}% of fields complete`}</span><span>${doc.status === 'out' ? 'Out for signature' : doc.status === 'signed' ? 'Signed' : 'Open form to continue'}</span><a href="#/form/${esc(tx.id)}/${esc(code)}">Open form →</a></div>`);
+        row.after(detail);
+        bind(button, code, [detail], false);
+      });
+      container.classList.add('form-checklists');
+      if (!isDesigned) container.classList.add('is-generated');
     }
   },
 
@@ -15033,7 +15321,15 @@ const Partners = {
       const el = (c.sub ? this.proto : this.protoPlain).cloneNode(true);
       el.children[0].textContent = c.name; el.children[1].textContent = c.company;
       const tp = el.children[2];
-      if (tp.children[0]) { tp.children[0].textContent = c.type; if (tp.children[1]) tp.children[1].textContent = c.sub; }
+      tp.classList.add('contact-type');
+      if (tp.children[0]) {
+        tp.children[0].classList.add('contact-type-label');
+        tp.children[0].textContent = c.type;
+        if (tp.children[1]) {
+          tp.children[1].classList.add('contact-role');
+          tp.children[1].textContent = c.company ? c.sub.replace(new RegExp(`\\s*·\\s*${c.company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'), '') : c.sub;
+        }
+      }
       el.children[3].textContent = c.license; el.children[4].textContent = c.phone;
       el.children[5].textContent = c.email; el.children[5].title = c.email;
       el.children[6].textContent = S.tx.filter((t) => (t.parties || []).some((p) => p[0] === c.name)).length || c.txCount;
@@ -15169,6 +15465,12 @@ const Forms = {
     const onS = views[0].getAttribute('style'), offS = views[1].getAttribute('style');
     views.forEach((a) => { a.setAttribute('style', text(a) === this.tcat ? onS : offS); onClick(a, () => { this.tcat = text(a); Router.refresh(); }); });
     const build = byText(main, 'Build from a closed transaction', { sel: 'a' }); if (build) build.setAttribute('href', '#/chat/new?q=' + encodeURIComponent('Build a template from a closed transaction'));
+    const assist = main.children[1];
+    if (assist) {
+      assist.classList.add('template-assist');
+      const message = $$('span', assist).find((node) => /Sofia can build/.test(ownText(node)));
+      if (message) message.textContent = 'Reuse the forms and work items from a closed transaction.';
+    }
     const grid = main.children[2].children[0];
     const cards = [...grid.children];
     const sideOf = { 'buyer-standard': 'Buyer', 'seller-listing': 'Seller', 'counter-offer': 'Situational', 'contingency-removal': 'Situational' };
@@ -15183,6 +15485,35 @@ const Forms = {
       const used = $$('span', c).find((x) => /^Used by/.test(ownText(x))); if (used) used.textContent = 'Used by 0 transactions';
       const ed = $$('span', c).find((x) => /^Edited/.test(ownText(x))); if (ed) ed.textContent = 'Edited today';
       grid.appendChild(c);
+    });
+    [...grid.children].forEach((card) => {
+      card.classList.add('template-card');
+      const [head, forms, playbook, foot] = card.children;
+      if (head) head.classList.add('template-card-head');
+      if (forms) {
+        forms.classList.add('template-card-forms');
+        const formLabel = forms.firstElementChild;
+        if (formLabel) {
+          forms.setAttribute('aria-label', formLabel.textContent.trim());
+          formLabel.remove();
+        }
+      }
+      if (playbook) {
+        playbook.classList.add('template-card-playbook');
+        const summary = playbook.firstElementChild;
+        const preview = playbook.lastElementChild;
+        if (summary) {
+          summary.classList.add('template-card-summary');
+          if (summary.firstElementChild) summary.firstElementChild.textContent = 'Work items';
+        }
+        if (preview) preview.classList.add('template-card-preview');
+      }
+      if (foot) {
+        foot.classList.add('template-card-foot');
+        const used = foot.firstElementChild;
+        if (used) used.textContent = used.textContent.replace(/^Used by /, 'Used in ');
+        foot.lastElementChild?.remove();
+      }
     });
     let n = 0;
     [...grid.children].forEach((c) => { const ok = this.tcat === 'All templates' || c.dataset.side === this.tcat; c.style.display = ok ? '' : 'none'; if (ok) n++; });
@@ -15256,13 +15587,33 @@ const Forms = {
       { name: 'when', label: 'Due', placeholder: 'e.g. Acceptance + 5d', value: 'On create', half: true },
       { name: 'owner', label: 'Owner', type: 'select', options: ['You', 'Sofia', 'TC'], half: true },
     ], submit: 'Add', onSubmit: (d) => commit(() => { tpl.items = tpl.items || []; tpl.items.push(d); }) }));
-    // collapse groups
-    $$('button[aria-label^=Collapse]', sec).forEach((b) => onClick(b, () => {
-      const open = b.getAttribute('aria-expanded') !== 'false';
-      b.setAttribute('aria-expanded', !open); b.style.transform = open ? 'rotate(-90deg)' : '';
-      let e = b.parentElement.nextElementSibling;
-      while (e && e.classList.contains('row')) { e.style.display = open ? 'none' : ''; e = e.nextElementSibling; }
-    }));
+    // Every group is a real persisted disclosure, not a decorative chevron.
+    $$('button[aria-expanded]', sec).forEach((button, index) => {
+      const group = button.parentElement;
+      const label = ownText(group.children[1]) || `Group ${index + 1}`;
+      const key = `playbook:${tpl.id}:${label}`;
+      const rows = [];
+      let next = group.nextElementSibling;
+      while (next && next.classList.contains('row')) { rows.push(next); next = next.nextElementSibling; }
+      const contentId = `playbook-${tpl.id}-${index}`;
+      group.dataset.disclosure = '';
+      button.type = 'button';
+      button.setAttribute('aria-controls', contentId);
+      if (rows[0]) rows[0].id = contentId;
+      const apply = (open) => {
+        button.setAttribute('aria-expanded', String(open));
+        button.setAttribute('aria-label', `${open ? 'Collapse' : 'Expand'} ${label}`);
+        rows.forEach((row) => { row.hidden = !open; });
+      };
+      apply(S.collapsed[key] !== true);
+      onClick(button, (event) => {
+        event?.stopPropagation();
+        const open = button.getAttribute('aria-expanded') === 'true';
+        S.collapsed[key] = open;
+        saveDB();
+        apply(!open);
+      });
+    });
     const showAll = byText(sec, 'Show all 20', { starts: true, sel: 'a' }); if (showAll) onClick(showAll, () => toast('Showing all work items'));
     // checklist aside
     const aside = $('aside[aria-label="Checklist and notes"]', app);
@@ -15278,7 +15629,8 @@ const Forms = {
     const r = proto.cloneNode(true);
     const name = $$('span', r.children[0]).find((x) => x.children.length === 0 && /Prepare RPA/.test(ownText(x))); if (name) name.textContent = it.title;
     const tags = $$('span', r.children[0]).filter((x) => /^(To-do|Task)$/.test(ownText(x)));
-    if (tags[0]) tags[0].textContent = it.type; if (tags[1]) tags[1].textContent = /Event|Key date/.test(it.type) ? it.type === 'Event' ? 'Event' : 'Key date' : 'Task';
+    if (tags[0]) tags[0].textContent = it.type === 'To-do' ? 'Task' : it.type;
+    if (tags[1]) tags[1].remove();
     const due = r.children[1]; due.children[0].textContent = it.when || 'On create'; due.children[1].textContent = /Acceptance|COE|Listing/i.test(it.when) ? 'Relative' : 'When transaction starts';
     const ow = r.children[2]; setOwn(ow, it.owner || 'You'); const av = $('span', ow); if (av) av.textContent = it.owner === 'Sofia' ? 'S' : it.owner === 'TC' ? 'TC' : initials(S.user.first + ' ' + S.user.last);
     return r;

@@ -14,6 +14,7 @@
   --surface-subtle: #f3f3f3;
   --surface-muted: #ededed;
   --border: #0000001a;
+  --border-subtle: #00000012;
   --border-strong: #00000026;
 
   /* Exact current ChatGPT light-theme tokens, sampled from the live product. */
@@ -1592,6 +1593,211 @@ html body .estio-screen .chat-context-parties > div:not(:first-child) > span:las
     padding: 28px 22px !important;
   }
 }
+
+/* ── Quiet operational surfaces ──────────────────────────────────
+   Passive boundaries use ChatGPT's neutral alpha borders. The stronger
+   token is reserved for controls, focus and deliberate separation. */
+.estio-screen [style*='border: 1px solid #E2E8F0'],
+.estio-screen [style*='border-top: 1px solid #E2E8F0'],
+.estio-screen [style*='border-bottom: 1px solid #E2E8F0'],
+.estio-screen [style*='border: 1px solid #D6E4FA'],
+.estio-screen [style*='border-top: 1px solid #F1F5F9'],
+.estio-screen [style*='border-bottom: 1px solid #F1F5F9'] {
+  border-color: var(--border) !important;
+}
+
+/* Today: one geometry for event dots, the vertical track and current time. */
+.today-card { container-type: inline-size; }
+.today-list {
+  --today-time-column: 68px;
+  --today-marker-column: 12px;
+  --today-gap: 10px;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px !important;
+  min-width: 0;
+}
+.today-track {
+  position: absolute;
+  z-index: 0;
+  top: 7px;
+  bottom: 7px;
+  left: calc(var(--today-time-column) + var(--today-gap) + 5.5px);
+  width: 1px;
+  background: var(--border);
+}
+.today-event {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--today-time-column) var(--today-marker-column) minmax(0, 1fr);
+  column-gap: var(--today-gap);
+  align-items: center;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+.today-event time,
+.today-now time {
+  color: var(--ink-2);
+  font-size: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.today-marker {
+  width: 10px;
+  height: 10px;
+  justify-self: center;
+  border-radius: 50%;
+  background: var(--today-marker);
+  box-shadow: 0 0 0 3px var(--surface-raised);
+}
+.today-event-copy {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.today-event-copy strong {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-size: var(--type-compact);
+  font-weight: 500;
+  text-overflow: ellipsis;
+}
+.today-event-context {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: var(--type-caption);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.today-event-context::before { content: '·'; color: var(--ink-2); }
+.today-event-context.is-contract { color: #b74200; }
+.today-event-context svg { width: 13px; height: 13px; flex: 0 0 auto; }
+.today-event.is-past { color: var(--ink-2); }
+.today-now {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: var(--today-time-column) minmax(0, 1fr);
+  column-gap: var(--today-gap);
+  align-items: center;
+}
+.today-now time { color: var(--danger); font-weight: 600; }
+.today-now-rule { display: flex; align-items: center; min-width: 0; height: 10px; }
+.today-now-rule::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+.today-now-rule span { height: 2px; flex: 1; background: var(--danger); }
+.today-empty { padding-left: calc(var(--today-time-column) + var(--today-marker-column) + var(--today-gap) * 2); color: var(--ink-2); font-size: var(--type-caption); }
+@container (max-width: 360px) {
+  .today-list { --today-time-column: 72px; --today-gap: 8px; }
+  .today-event-context { display: none; }
+}
+
+/* Form checklist and playbook disclosure controls share one state model. */
+.form-disclosure-button,
+.playbook-group > button {
+  display: grid !important;
+  place-items: center;
+  width: 28px !important;
+  height: 28px !important;
+  flex: 0 0 28px;
+  margin: -4px 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: var(--radius-control);
+  background: transparent !important;
+  color: var(--ink-2) !important;
+  transition: background .15s, transform .15s;
+}
+.form-disclosure-button:hover,
+.playbook-group > button:hover { background: var(--ghost) !important; }
+.form-disclosure-button[aria-expanded='false'],
+.playbook-group > button[aria-expanded='false'] { transform: rotate(-90deg); }
+.form-disclosure-button[aria-expanded='true'],
+.playbook-group > button[aria-expanded='true'] { transform: rotate(0); }
+.form-checklists .form-checklist-summary { min-height: 52px; }
+.form-checklist-detail {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(150px, 1fr) max-content;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 20px 10px 60px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: var(--type-caption);
+}
+.form-checklist-detail a { color: var(--ink); font-weight: 500; text-decoration: none; white-space: nowrap; }
+.form-checklist-detail[hidden] { display: none !important; }
+@media (max-width: 700px) {
+  .form-checklist-detail { grid-template-columns: 1fr; gap: 4px; padding-left: 56px; }
+}
+
+/* Playbooks stay tabular while space exists; supporting copy is revealed by
+   the column heading, so rows do not repeat “Task” and trigger explanations. */
+.playbook-work-items .playbook-item { min-height: 54px; padding-block: 8px !important; }
+.playbook-work-items .playbook-item > :first-child > :last-child > :last-child > span:last-child,
+.playbook-work-items .playbook-item > :nth-child(2) > span:last-child { display: none !important; }
+.playbook-work-items .playbook-item > :nth-child(2),
+.playbook-work-items .playbook-item > :nth-child(4) { white-space: nowrap; }
+/* Contact type and role remain on one scan line until the mobile card layout. */
+@media (min-width: 761px) {
+  .contact-table .contact-type {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .contact-table .contact-type-label,
+  .contact-table .contact-role { flex: 0 0 auto; }
+}
+
+/* Templates: summary first, two representative work items, no edit-history
+   noise on a broker's selection screen. */
+.template-assist {
+  background: var(--surface-subtle) !important;
+  border-color: var(--border) !important;
+}
+.template-card {
+  gap: 12px !important;
+  padding: 18px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface-raised) !important;
+  box-shadow: none !important;
+  transition: background .15s, border-color .15s;
+}
+.template-card:hover { background: var(--surface) !important; border-color: var(--border-strong) !important; }
+.template-card-head > :last-child { background: var(--surface-subtle) !important; color: var(--ink-2) !important; }
+.template-card-forms { gap: 0 !important; }
+.template-card-forms > div { gap: 5px !important; }
+.template-card-forms > div > span {
+  border-color: var(--border) !important;
+  background: var(--surface-subtle) !important;
+  color: var(--ink-2) !important;
+}
+.template-card-playbook { gap: 8px !important; }
+.template-card-summary > :first-child { color: var(--ink-2) !important; font-size: var(--type-caption) !important; font-weight: 500 !important; }
+.template-card-preview { padding: 4px 10px !important; background: var(--surface) !important; }
+.template-card-preview > :nth-child(n+3) { display: none !important; }
+.template-card-foot { justify-content: flex-start !important; padding-top: 8px !important; border-color: var(--border-subtle) !important; }
 
 /* ChatGPT-style two-layer desktop navigation: persistent product rail +
    contextual panel. Product areas live in the rail; the panel stays focused
@@ -4921,16 +5127,17 @@ html body .estio-screen[data-screen='contacts'] .contact-table {
   container-type: inline-size;
 }
 
-@container (min-width: 1100px) {
+@container (min-width: 900px) {
   html body .estio-screen[data-screen='contacts'] .contact-table > .data-grid-row {
     grid-template-columns:
-      minmax(112px, .8fr)
-      minmax(186px, 1.5fr)
-      minmax(190px, 1.65fr)
-      minmax(104px, .8fr)
-      minmax(118px, .95fr)
-      minmax(0, 1.45fr)
-      102px !important;
+      minmax(110px, .8fr)
+      minmax(145px, 1.15fr)
+      minmax(225px, 1.65fr)
+      minmax(90px, .7fr)
+      minmax(108px, .85fr)
+      minmax(115px, 1fr)
+      80px !important;
+    gap: 10px !important;
   }
 }
 
@@ -5045,7 +5252,7 @@ html body .estio-screen[data-screen='txOverview'] .tx-overview-summary-row > :nt
   font-size: 13px !important; font-weight: 600 !important;
   letter-spacing: 0 !important; text-transform: none !important;
 }
-@container (max-width: 600px) {
+@container (max-width: 480px) {
   .playbook-work-items .playbook-columns { display: none !important; }
   .playbook-work-items .playbook-item {
     grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, 1fr) !important;
@@ -5126,6 +5333,27 @@ html body .estio-screen:is([data-screen='txChecklist'], [data-screen='txDocument
   max-height: none !important;
   overflow: visible !important;
 }
+
+/* Final-state overrides live after the imported-screen compatibility layer. */
+.playbook-work-items .playbook-item[hidden],
+.form-checklist-group > .row[hidden] { display: none !important; }
+.playbook-work-items .playbook-item { min-height: 54px; padding-block: 8px !important; }
+[data-screen='txLog'] .channel-envelope { padding: 16px; border-color: var(--border); border-radius: var(--radius-panel); }
+[data-screen='txLog'] .channel-envelope-head > div { gap: 3px; }
+[data-screen='txLog'] .channel-signers { margin-top: 12px; }
+[data-screen='txLog'] .channel-signers-heading { padding: 10px 0 6px; }
+[data-screen='txLog'] .channel-signer {
+  grid-template-columns: 24px minmax(0, 1fr) minmax(150px, max-content);
+  min-height: 48px;
+  padding: 8px 0;
+  border-color: var(--border-subtle);
+}
+[data-screen='txLog'] .channel-step { width: 22px; height: 22px; background: var(--surface-subtle); }
+[data-screen='txLog'] .channel-signer-name,
+[data-screen='txLog'] .channel-signature { gap: 1px; }
+[data-screen='txLog'] .channel-signature { text-align: right; }
+[data-screen='txLog'] .channel-signature strong { font-size: var(--type-caption); font-weight: 500; }
+[data-screen='txLog'] .channel-envelope-foot { justify-content: flex-end; margin-top: 10px; }
 
 @media (max-width: 1080px) {
   html body .estio-screen .layout-root { --active-page-rail: var(--page-rail-tablet); }

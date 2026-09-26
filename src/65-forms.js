@@ -73,6 +73,12 @@ const Forms = {
     const onS = views[0].getAttribute('style'), offS = views[1].getAttribute('style');
     views.forEach((a) => { a.setAttribute('style', text(a) === this.tcat ? onS : offS); onClick(a, () => { this.tcat = text(a); Router.refresh(); }); });
     const build = byText(main, 'Build from a closed transaction', { sel: 'a' }); if (build) build.setAttribute('href', '#/chat/new?q=' + encodeURIComponent('Build a template from a closed transaction'));
+    const assist = main.children[1];
+    if (assist) {
+      assist.classList.add('template-assist');
+      const message = $$('span', assist).find((node) => /Sofia can build/.test(ownText(node)));
+      if (message) message.textContent = 'Reuse the forms and work items from a closed transaction.';
+    }
     const grid = main.children[2].children[0];
     const cards = [...grid.children];
     const sideOf = { 'buyer-standard': 'Buyer', 'seller-listing': 'Seller', 'counter-offer': 'Situational', 'contingency-removal': 'Situational' };
@@ -87,6 +93,35 @@ const Forms = {
       const used = $$('span', c).find((x) => /^Used by/.test(ownText(x))); if (used) used.textContent = 'Used by 0 transactions';
       const ed = $$('span', c).find((x) => /^Edited/.test(ownText(x))); if (ed) ed.textContent = 'Edited today';
       grid.appendChild(c);
+    });
+    [...grid.children].forEach((card) => {
+      card.classList.add('template-card');
+      const [head, forms, playbook, foot] = card.children;
+      if (head) head.classList.add('template-card-head');
+      if (forms) {
+        forms.classList.add('template-card-forms');
+        const formLabel = forms.firstElementChild;
+        if (formLabel) {
+          forms.setAttribute('aria-label', formLabel.textContent.trim());
+          formLabel.remove();
+        }
+      }
+      if (playbook) {
+        playbook.classList.add('template-card-playbook');
+        const summary = playbook.firstElementChild;
+        const preview = playbook.lastElementChild;
+        if (summary) {
+          summary.classList.add('template-card-summary');
+          if (summary.firstElementChild) summary.firstElementChild.textContent = 'Work items';
+        }
+        if (preview) preview.classList.add('template-card-preview');
+      }
+      if (foot) {
+        foot.classList.add('template-card-foot');
+        const used = foot.firstElementChild;
+        if (used) used.textContent = used.textContent.replace(/^Used by /, 'Used in ');
+        foot.lastElementChild?.remove();
+      }
     });
     let n = 0;
     [...grid.children].forEach((c) => { const ok = this.tcat === 'All templates' || c.dataset.side === this.tcat; c.style.display = ok ? '' : 'none'; if (ok) n++; });
@@ -160,13 +195,33 @@ const Forms = {
       { name: 'when', label: 'Due', placeholder: 'e.g. Acceptance + 5d', value: 'On create', half: true },
       { name: 'owner', label: 'Owner', type: 'select', options: ['You', 'Sofia', 'TC'], half: true },
     ], submit: 'Add', onSubmit: (d) => commit(() => { tpl.items = tpl.items || []; tpl.items.push(d); }) }));
-    // collapse groups
-    $$('button[aria-label^=Collapse]', sec).forEach((b) => onClick(b, () => {
-      const open = b.getAttribute('aria-expanded') !== 'false';
-      b.setAttribute('aria-expanded', !open); b.style.transform = open ? 'rotate(-90deg)' : '';
-      let e = b.parentElement.nextElementSibling;
-      while (e && e.classList.contains('row')) { e.style.display = open ? 'none' : ''; e = e.nextElementSibling; }
-    }));
+    // Every group is a real persisted disclosure, not a decorative chevron.
+    $$('button[aria-expanded]', sec).forEach((button, index) => {
+      const group = button.parentElement;
+      const label = ownText(group.children[1]) || `Group ${index + 1}`;
+      const key = `playbook:${tpl.id}:${label}`;
+      const rows = [];
+      let next = group.nextElementSibling;
+      while (next && next.classList.contains('row')) { rows.push(next); next = next.nextElementSibling; }
+      const contentId = `playbook-${tpl.id}-${index}`;
+      group.dataset.disclosure = '';
+      button.type = 'button';
+      button.setAttribute('aria-controls', contentId);
+      if (rows[0]) rows[0].id = contentId;
+      const apply = (open) => {
+        button.setAttribute('aria-expanded', String(open));
+        button.setAttribute('aria-label', `${open ? 'Collapse' : 'Expand'} ${label}`);
+        rows.forEach((row) => { row.hidden = !open; });
+      };
+      apply(S.collapsed[key] !== true);
+      onClick(button, (event) => {
+        event?.stopPropagation();
+        const open = button.getAttribute('aria-expanded') === 'true';
+        S.collapsed[key] = open;
+        saveDB();
+        apply(!open);
+      });
+    });
     const showAll = byText(sec, 'Show all 20', { starts: true, sel: 'a' }); if (showAll) onClick(showAll, () => toast('Showing all work items'));
     // checklist aside
     const aside = $('aside[aria-label="Checklist and notes"]', app);
@@ -182,7 +237,8 @@ const Forms = {
     const r = proto.cloneNode(true);
     const name = $$('span', r.children[0]).find((x) => x.children.length === 0 && /Prepare RPA/.test(ownText(x))); if (name) name.textContent = it.title;
     const tags = $$('span', r.children[0]).filter((x) => /^(To-do|Task)$/.test(ownText(x)));
-    if (tags[0]) tags[0].textContent = it.type; if (tags[1]) tags[1].textContent = /Event|Key date/.test(it.type) ? it.type === 'Event' ? 'Event' : 'Key date' : 'Task';
+    if (tags[0]) tags[0].textContent = it.type === 'To-do' ? 'Task' : it.type;
+    if (tags[1]) tags[1].remove();
     const due = r.children[1]; due.children[0].textContent = it.when || 'On create'; due.children[1].textContent = /Acceptance|COE|Listing/i.test(it.when) ? 'Relative' : 'When transaction starts';
     const ow = r.children[2]; setOwn(ow, it.owner || 'You'); const av = $('span', ow); if (av) av.textContent = it.owner === 'Sofia' ? 'S' : it.owner === 'TC' ? 'TC' : initials(S.user.first + ' ' + S.user.last);
     return r;

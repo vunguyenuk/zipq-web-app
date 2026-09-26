@@ -1,6 +1,6 @@
 # ZipQ accessibility and UI-quality audit
 
-Audit date: 2026-09-26. Scope: the checked-in 33-screen prototype, generated `index.html`, shared CSS, design-system catalog, and the interaction paths covered by the DOM regression suite. This is a code/DOM audit, not a claim of independent WCAG certification or pixel verification in a live browser.
+Audit date: 2026-09-26. Scope: the checked-in 33-screen prototype, generated `index.html`, shared CSS, design-system catalog, DOM regression suite, and a local-browser pass of Home, Checklist, Playbook, Templates, Partners and DocuSign. This is not a claim of independent WCAG certification or a screen-reader pass.
 
 ## Health score after this pass
 
@@ -8,10 +8,10 @@ Audit date: 2026-09-26. Scope: the checked-in 33-screen prototype, generated `in
 | --- | ---: | --- |
 | Accessibility | 3 | Semantic ink/status tokens reach ≥4.5:1 on white, canvas, and sidebar surfaces. Body/supporting text is 16/14px; Comfortable is 18/16px. Focus, skip link, labels, radio-key navigation and touch sizing exist. Imported literal styles still need full visual/assistive-technology testing. |
 | Performance | 2 | Single-file 2.96 MB app has no install step, but 33 screens and assets ship together. Runtime semantic classification adds work on each route. |
-| Responsive | 2 | Container rules and mobile adaptations exist; fixed-width legacy markup and 200% zoom have not been visually verified in a real browser. |
-| Theming | 2 | Semantic light tokens are in use, but the imported prototype still contains many hard-coded values and there is no dark theme. |
+| Responsive | 3 | Today, data grids, checklist disclosures and Playbook were checked in a real browser at desktop and a constrained Home width. Full 200% zoom coverage remains. |
+| Theming | 3 | Passive borders now use shared neutral alpha tokens in the product and catalog. Imported inline colors and the absence of a dark theme remain technical debt. |
 | Anti-patterns | 3 | Flat operational hierarchy and restrained accent usage are mostly consistent; legacy overrides and some nested surfaces remain. |
-| **Total** | **12/20** | **Acceptable; continue focused verification and cleanup before production.** |
+| **Total** | **14/20** | **Good prototype health; complete assistive-technology and full-route zoom verification before production.** |
 
 Anti-pattern verdict: not an AI-slop gallery. The main risk is accumulated screenshot-specific CSS, not gratuitous gradients or decorative metrics.
 
@@ -23,6 +23,9 @@ Anti-pattern verdict: not an AI-slop gallery. The main risk is accumulated scree
 - **[P1 · UX] Side menu not visibly gray.** Both the product rail and contextual navigation panel now share explicit `--sidebar-bg: #f3f3f3`, independent of the imported white template. Active navigation is still a distinct lighter surface.
 - **[P2 · Responsive] Legacy 900px list minimums.** Narrow-width overrides prevent the transaction, client and Agenda list containers from forcing a 900px minimum width.
 - **[P2 · Consistency] Future-agent drift.** The catalog and `design-system/CONTRACT.md` document components, patterns and regressions. Root `AGENTS.md` and `CLAUDE.md` require both Codex and Claude to follow them.
+- **[P1 · Interaction] Decorative disclosure arrows.** Form checklist, transaction summary and Playbook arrows now use native buttons with `aria-expanded`/`aria-controls`; state persists in localStorage and collapsed rows leave layout and focus order.
+- **[P1 · Readability] Today timeline and dense operational cards.** Time has a stable non-wrapping column; marker/track/current rule share one axis. Template previews are capped at two work items, and DocuSign uses one compact status per signer.
+- **[P2 · Consistency] Passive border drift.** `--border` and `--border-subtle` define ChatGPT-light neutral boundaries across the app and design-system catalog.
 
 ## Remaining verification and technical debt
 

@@ -49,8 +49,9 @@ For every component, verify the CSS properties `font-size`, `font-family`, `colo
 | Calendar, task/event | `.agenda-calendar-controlbar`, `.agenda-calendar-mode-tabs`, `.agenda-time-group`; `src/55-agenda.js` |
 | Client detail and follow-up | `.client-detail-modal`, `.client-detail-actions`, `.client-followup-timeline`; `src/60-relationships.js` |
 | Transaction detail and DocuSign | `.tx-overview-summary-row`, `.channel-envelope`, `.channel-signer`; `src/50-txdetail.js` |
+| Today timeline | `.today-card`, `.today-list`, `.today-event`, `.today-now`; `src/30-components.js` |
 | Sofia chat, composer, approval, suggestion | `.chat-input-shell`, `.sofia-composer`, `.chat-confirm-reply`, `.sofia-inline-suggestion`; `src/35-sofia.js` |
-| Forms and playbook | `.playbook-work-items`, `.playbook-group`, `.playbook-item`; `src/65-forms.js` |
+| Forms and playbook | `.form-checklists`, `.form-disclosure-button`, `.template-card`, `.playbook-work-items`, `.playbook-group`, `.playbook-item`; `src/50-txdetail.js`, `src/65-forms.js` |
 
 ## Regression traps from previous feedback
 
@@ -60,7 +61,8 @@ For every component, verify the CSS properties `font-size`, `font-family`, `colo
 4. Clients: opening a client hides the duplicated left-side navigation, not the client list. The right detail panel scrolls. Call/Email/Message/View transaction use the shared 14px action-label token (16px in Comfortable mode) and stay on one line when the panel can fit them, with at least 12px inline button padding and 44px targets; View transaction has no plus and uses a secondary style, while Start transaction remains a creation action. The Type and Stage toolbar filters use the same 14px label as the Search field, with normal weight so they do not look larger; preserve their control heights. Selected detail tab has a white fill.
 5. Transaction detail: the page and detail rail scroll; summary count and disclosure arrow are adjacent; timeline dates cannot touch their descriptions; task checkboxes follow the same left inset as top/right/bottom padding. Do not repeat uppercase Overdue/Later/Done headings under a tab bar that already identifies the state.
 6. Communication log: Chat is the aggregate tab, not All. Email, SMS, Calls and DocuSign each use their own information architecture. Calls show start, end, duration. DocuSign shows actual envelope recipient status; never draw or imply a handwritten signature without data.
-7. Playbook: Work item/Due/Owner/Reminder remain aligned on a shared grid until the container needs a compact second row; group arrow stays by the group label.
+7. Forms and playbook: Template cards show decision-useful content only. Work item/Due/Owner/Reminder remain aligned until the container genuinely needs a compact second row. Every form and group arrow is a native, stateful disclosure button.
+8. Borders: outer surfaces and controls use `--border`; passive dividers use `--border-subtle`. Both are neutral ChatGPT-light alpha borders. Do not add blue-gray one-off outlines or nested borders.
 8. Tables: headers share the same light neutral surface, text role, and four-sided padding. Do not nest an input border inside a search-field border or crop the last row by mismatched bottom padding.
 9. Sofia suggestions: the inline suggestion spans the same content width as its neighboring Agenda cards. Suggestions are not committed actions.
 10. Typography: do not reintroduce 10–13px body/metadata text or `#8f8f8f` on light backgrounds. All button, select, input and textarea text, including Sort and New transaction, consumes `--type-action` (14px by default, 16px in Comfortable mode); icon-only controls retain their own icon geometry. Preserve accessible target sizes independently of label size. Keep reading copy distinct from controls; long paragraphs remain 16px by default. Keep long copy at a comfortable line length and allow text wrapping at zoom/comfortable size.

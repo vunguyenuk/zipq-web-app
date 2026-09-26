@@ -85,27 +85,28 @@ function todayEvents() {
 }
 function renderToday(section, { compact = false } = {}) {
   if (!section) return;
+  section.classList.add('today-card');
   const evs = todayEvents();
   const link = $('a', section.firstElementChild); if (link) link.textContent = `${evs.length} scheduled`;
   const list = section.children[1];
+  list.classList.add('today-list');
   const nowT = new Date(); const nowS = `${String(nowT.getHours()).padStart(2, '0')}:${String(nowT.getMinutes()).padStart(2, '0')}`;
-  let out = '<span style="position: absolute; left: 64px; top: 8px; bottom: 8px; width: 1px; background: #E2E8F0;"></span>';
+  let out = '<span class="today-track" aria-hidden="true"></span>';
   let nowDone = false;
-  const nowLine = `<div style="display: grid; grid-template-columns: 50px minmax(0, 1fr); column-gap: 9px; align-items: center; position: relative;"><span style="font-size: 12px; font-weight: 600; color: #B42318; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums;">${fmtTimeFull(nowS)}</span><span style="display: flex; align-items: center;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #B42318; margin-left: 3px; flex-shrink: 0;"></span><span style="flex-grow: 1; height: 2px; background: #B42318;"></span></span></div>`;
+  const nowLine = `<div class="today-now" aria-label="Current time ${esc(fmtTimeFull(nowS))}"><time>${esc(fmtTimeFull(nowS))}</time><span class="today-now-rule" aria-hidden="true"><span></span></span></div>`;
   evs.forEach((e) => {
     if (!nowDone && e.start > nowS) { out += nowLine; nowDone = true; }
     const past = e.start < nowS;
     const t = e.txId && txOf(e.txId);
     const col = e.contract ? '#E25507' : EVENT_COLOR[e.type] || '#94A3B8';
-    const sub = compact ? '' : (e.contract ? `Contract deadline${t ? ' · ' + txLabel(t) : ''}` : `${e.type}${t ? ' · ' + txLabel(t) : ''}`);
     const title = e.contract
-      ? `<span style="display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 13px; font-weight: 500; color: ${past ? '#64748B' : '#020617'}; white-space: nowrap;">${esc(e.title)}<span style="color: #E25507; display: flex;">${LOCK}</span><span style="font-weight: 400; color: #E25507; overflow: hidden; text-overflow: ellipsis;">${t ? esc(txLabel(t).replace(/ Street$| Avenue$/, '')) : ''}</span></span>`
-      : `<span style="font-size: 13px; font-weight: 500; color: ${past ? '#64748B' : '#020617'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(e.title)} <span style="font-weight: 400; color: #64748B;">· ${esc(t ? txLabel(t).replace(/ Avenue$/, '') : e.type)}</span></span>`;
-    out += `<a href="${e.kind === 'event' ? '#/agenda/event/' + e.id : '#/tx/' + e.txId}" style="display: grid; grid-template-columns: 50px 12px minmax(0, 1fr); column-gap: 9px; align-items: center; text-decoration: none; color: inherit;"><span style="font-size: 12px; color: #64748B; text-align: right; font-variant-numeric: tabular-nums;">${fmtTime(e.start)}</span><span style="width: 10px; height: 10px; margin: 0 auto; border-radius: 50%; background: ${col}; box-shadow: 0 0 0 3px #FFFFFF; position: relative;"></span>${title}</a>`;
-    void sub;
+      ? `<span class="today-event-copy"><strong>${esc(e.title)}</strong><span class="today-event-context is-contract">${LOCK}${t ? esc(txLabel(t).replace(/ Street$| Avenue$/, '')) : 'Contract deadline'}</span></span>`
+      : `<span class="today-event-copy"><strong>${esc(e.title)}</strong><span class="today-event-context">${esc(t ? txLabel(t).replace(/ Avenue$/, '') : e.type)}</span></span>`;
+    const fullLabel = [fmtTime(e.start), e.title, t ? txLabel(t) : e.type].filter(Boolean).join(', ');
+    out += `<a class="today-event${past ? ' is-past' : ''}${compact ? ' is-compact' : ''}" href="${e.kind === 'event' ? '#/agenda/event/' + e.id : '#/tx/' + e.txId}" aria-label="${esc(fullLabel)}" title="${esc(fullLabel)}"><time>${esc(fmtTime(e.start))}</time><span class="today-marker" style="--today-marker:${col}" aria-hidden="true"></span>${title}</a>`;
   });
   if (!nowDone) out += nowLine;
-  if (!evs.length) out += '<div style="font-size:13px;color:#64748B;padding-left:73px">Nothing scheduled today.</div>';
+  if (!evs.length) out += '<div class="today-empty">Nothing scheduled today.</div>';
   list.innerHTML = out;
 }
 

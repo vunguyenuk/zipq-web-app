@@ -25,6 +25,12 @@ Phạm vi: đối chiếu code hiện tại với các feedback trong task, ưu 
 | Type/Stage lớn hơn Search | Hai bộ lọc Type và Stage dùng nhãn `--type-action` 14px/20px, nét thường, bằng chữ Search; không giảm chiều cao vùng bấm. Comfortable dùng 16px. | Kiểm tra class controller, CSS và build; chưa đo pixel trong trình duyệt. |
 | Heading và New chat còn lớn | Chuẩn hóa heading cấp trang về `--type-page-title` 24px/30px, weight 500 trên Home, Agenda, auth và các trang còn lại; giữ heading mục nhỏ hơn để bảo toàn phân cấp. Nhãn New chat/New transaction/Add client trong sidebar, kể cả span bên trong, dùng `--type-action` 14px. | Kiểm tra token, CSS và build; chưa đo pixel trong trình duyệt. |
 | Sort, New transaction và select/input chưa bằng Ask Sofia | Lớp primitive cũ vẫn ép 16px cho một số button và field. Chuyển các primitive về `--type-action`; rule chung bao phủ button, select, input, textarea, nhãn lồng bên trong và dialog động. 14px mặc định, 16px Comfortable; không đổi chiều cao/padding control. | Kiểm tra CSS và build; chưa đo pixel trong trình duyệt. |
+| Today lệch trục và giờ 2:30 PM xuống hàng | Mark, track và current-time dùng các offset khác nhau, cột giờ chỉ 50px. Chuyển thành lưới chung 68px/12px/content, tabular time và context truncate sau title. | Đã kiểm tra trực tiếp Home desktop; 2:30 PM còn một hàng, current-time rule cùng trục marker. |
+| Arrow Forms/Playbook không đóng mở | Một số chevron chỉ là SVG; nhóm Playbook chỉ ẩn bằng inline style và không lưu state. Chuyển thành native button có `aria-expanded`, `aria-controls`, trạng thái lưu localStorage và nội dung collapsed rời layout/focus order. | Đã click RPA true→false→true, AD false→true và Offer prep true→false; trạng thái RPA giữ sau reload. |
+| Partners Type xuống hàng/đè cột | Cột Type cố định 160px và role lặp lại company. Cho lưới phân phối lại từ container 900px, giữ Type/Role trên một scan line và bỏ company lặp trong role. | Đã đo trực tiếp: Type cell 216.5px; các role ngắn không overflow, Broker chỉ còn “Listing agent”. |
+| Templates/Forms rối và lặp metadata | Mỗi card lặp Forms count, Playbook label, ba preview rows và edit history. Giữ tên, mục đích, mã form, metrics, hai work item đại diện và usage. | 4 card render; mỗi preview còn đúng 2 hàng; bỏ edit history. |
+| DocuSign signer card quá nhiều lớp chữ | Kicker, trạng thái, signer count và trạng thái mỗi người lặp ý; footer có disclaimer dài. Nén header, dùng Pending/Signed ngắn gọn, giữ note nghiệp vụ và một link Open document. | Đã kiểm tra trực tiếp 3 signer; không lỗi console. |
+| Border chưa đồng nhất | Prototype còn literal xanh-xám trên divider/card. Chuẩn hóa về `--border` và `--border-subtle` neutral alpha; cập nhật contract, spec và live catalog. | Design-system check đạt; catalog dùng chính stylesheet sản phẩm. |
 
 ## Các yêu cầu đã có trong code hiện tại
 
@@ -47,6 +53,6 @@ Phạm vi: đối chiếu code hiện tại với các feedback trong task, ưu 
 
 - Build `index.html`, kiểm tra cú pháp và `git diff --check` thành công.
 - Lượt rà trước đã chạy bộ kiểm tra DOM bằng jsdom trong bộ nhớ riêng; bộ đó không được lưu vào repo nên không thể chạy lại nguyên trạng. `node scripts/check-ui-regressions.mjs` hiện lưu các kiểm tra hồi quy cho tab Follow-ups và thao tác bàn phím của vùng tương tác, không thay thế kiểm thử trình duyệt thực.
-- Công cụ trình duyệt chặn truy cập URL `file://` của trang. Chưa xác nhận pixel, clipping, responsive hoặc animation bằng trình duyệt thực trong lượt này.
+- Đã kiểm tra trực tiếp bản local qua HTTP ở desktop cho Home, Checklist, Playbook, Templates, Partners và DocuSign; kiểm tra disclosure state, scroll route và console. Chưa làm pass VoiceOver/NVDA hoặc 200% zoom toàn bộ 33 màn.
 - Chưa đối chiếu lại animation với phiên Arcads trực tiếp; sự tồn tại của animation trong code không chứng minh đã giống hoàn toàn reference.
 - File local đã được build; lượt này không deploy bản Vercel.
