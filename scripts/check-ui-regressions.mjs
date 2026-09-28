@@ -70,6 +70,8 @@ assert(/data-screen='templates'[^}]*\.template-assist\s*\{[\s\S]*?padding:\s*var
 assert(/\.template-grid\s*\{[^}]*gap:\s*var\(--space-lg\)\s*!important;/.test(css), 'Template grid gap is not tokenized');
 assert(/\.template-card\s*\{[\s\S]*?display:\s*flex\s*!important;[\s\S]*?gap:\s*var\(--space-md\)\s*!important;[\s\S]*?padding:\s*var\(--space-lg\)\s*!important;/.test(css), 'Template card stack spacing regressed');
 assert(/\.template-card-preview > \*\s*\{[^}]*min-height:\s*32px\s*!important;/.test(css), 'Template preview rows are too compressed');
+assert(/\.modal\s*\{\s*overflow:\s*hidden;\s*\}/.test(css), 'Modal does not clip footer backgrounds to its outer radius');
+assert(/\.modal > \.modal-f:last-child\s*\{[\s\S]*?border-radius:\s*0 0 var\(--radius-lg\) var\(--radius-lg\);/.test(css), 'Modal footer lower radius is not synchronized with the shell');
 
 // Routine headers use a single sentence-case supporting-text role. The build
 // language pass must preserve capitalization instead of flattening Automatic
@@ -146,6 +148,7 @@ console.log('PASS unified Home hero without legacy desktop and phone copy');
 console.log('PASS Design system link in sidebar and compact navigation');
 console.log('PASS template banner and card spacing contract');
 console.log('PASS Sofia routines sentence-case typography contract');
+console.log('PASS modal footer follows the outer bottom radius');
 console.log('PASS Calendar padding and in-place week/month event editing');
 console.log('PASS delegated actions: Enter, Space, native controls and nested targets');
 console.log('PASS canonical demo state is persisted to localStorage');

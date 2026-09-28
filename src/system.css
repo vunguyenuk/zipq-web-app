@@ -460,6 +460,13 @@ select {
   box-shadow: var(--shadow-menu) !important;
 }
 
+/* The modal owns the clipping boundary so a tinted footer cannot square off
+   its lower corners. Header and footer now resolve to the same outer radius. */
+.modal { overflow: hidden; }
+.modal > .modal-f:last-child {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
 .modal-f {
   border-color: var(--border) !important;
   background: var(--surface);
